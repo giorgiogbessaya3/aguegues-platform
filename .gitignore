@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+node_modules.zip       # <- ajouter ça pour éviter ton gros zip
+
+# Next.js build files
+.next/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# TypeScript build info
+*.tsbuildinfo
