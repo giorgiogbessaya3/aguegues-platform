@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
 import { ChevronRight, MapPin, AlertTriangle, Camera, Send, CheckCircle, X } from 'lucide-react'
@@ -128,7 +127,6 @@ export default function DoleancesPage() {
     if (success) {
         return (
             <>
-                <Header />
                 <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', background: '#f9fafb' }}>
                     <div style={{ textAlign: 'center', maxWidth: '480px' }}>
                         <div style={{
@@ -167,7 +165,6 @@ export default function DoleancesPage() {
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: '#f9fafb' }}>
 
                 {/* ── HERO ────────────────────────────────── */}

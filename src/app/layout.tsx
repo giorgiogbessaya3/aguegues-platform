@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import PageLayout from '@/components/layout/PageLayout'
 
 export const metadata: Metadata = {
   title: {
@@ -48,7 +49,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        {children}
+        <PageLayout>
+          {children}
+        </PageLayout>
       </body>
     </html>
   )

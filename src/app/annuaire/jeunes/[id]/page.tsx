@@ -2,7 +2,6 @@
 
 import { use } from 'react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import {
     MapPin, Briefcase, TrendingUp, ChevronRight,
@@ -55,7 +54,6 @@ export default function ProfilJeunePage({ params }: { params: Promise<{ id: stri
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: 'var(--color-gray-50)' }}>
                 <div style={{ height: '6px', background: 'linear-gradient(90deg, var(--color-secondary) 0%, var(--color-primary) 100%)' }} />
 

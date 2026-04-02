@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Header from '@/components/layout/Header'
 
 // Images carousel — placez vos images dans /public/commune/
 const carouselImages = [
@@ -375,14 +374,12 @@ function Carousel2() {
 
 export default function HomePage() {
     return (
-        <>
-            <Header />
-            <main style={{
-                height: '100dvh',
-                display: 'grid',
-                gridTemplateRows: 'auto 1fr',
-                overflow: 'hidden',
-            }}>
+        <main style={{
+            height: '100dvh',
+            display: 'grid',
+            gridTemplateRows: 'auto 1fr',
+            overflow: 'hidden',
+        }}>
 
                 {/* ── HERO avec fond image ─────────────────── */}
                 <section style={{
@@ -458,14 +455,12 @@ export default function HomePage() {
                     </div>
                 </section>
 
-            </main>
-
             <style>{`
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(200%); }
         }
       `}</style>
-        </>
+        </main>
     )
 }

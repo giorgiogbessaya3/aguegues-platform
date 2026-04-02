@@ -2,7 +2,6 @@
 
 import { use } from 'react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import {
     Calendar, Clock, ArrowLeft, ChevronRight,
@@ -171,7 +170,6 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
     if (!article) {
         return (
             <>
-                <Header />
                 <div style={{ textAlign: 'center', padding: '6rem 1rem' }}>
                     <p style={{ fontSize: '1.25rem', color: 'var(--color-gray-500)' }}>Article introuvable.</p>
                     <Link href="/actualites" className="btn btn-primary" style={{ marginTop: '1rem' }}>
@@ -187,7 +185,6 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: 'var(--color-gray-50)' }}>
                 {/* Bannière colorée */}
                 <div style={{

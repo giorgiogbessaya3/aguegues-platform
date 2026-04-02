@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import {
     Newspaper, ChevronRight, Calendar, Tag,
@@ -111,7 +110,6 @@ export default function ActualitesPage() {
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: 'var(--color-gray-50)' }}>
 
                 {/* ---- EN-TÊTE ---- */}

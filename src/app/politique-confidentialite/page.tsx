@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { ChevronRight, Shield, Lock, Eye, Users, Mail } from 'lucide-react'
 
@@ -88,7 +87,6 @@ function renderContenu(texte: string) {
 export default function PolitiqueConfidentialitePage() {
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: 'var(--color-gray-50)' }}>
 
                 {/* HERO */}

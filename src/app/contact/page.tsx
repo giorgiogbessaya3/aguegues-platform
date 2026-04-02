@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
 import {
@@ -51,7 +50,6 @@ export default function ContactPage() {
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: 'var(--color-gray-50)' }}>
 
                 {/* ---- EN-TÊTE ---- */}

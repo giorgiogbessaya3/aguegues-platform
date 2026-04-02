@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import {
     ChevronRight, MapPin, Users, Target, Heart,
@@ -43,7 +42,6 @@ const timeline = [
 export default function AProposPage() {
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh' }}>
 
                 {/* ================================================

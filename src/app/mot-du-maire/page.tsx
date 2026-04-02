@@ -1,6 +1,5 @@
 'use client'
 
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
 import { Quote, ChevronRight } from 'lucide-react'
@@ -24,7 +23,6 @@ const valeurs = [
 export default function MotDuMairePage() {
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: '#f9fafb' }}>
 
                 {/* ── HERO ─────────────────────────────────── */}

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
 import {
@@ -94,7 +93,6 @@ export default function EspaceCadresPage() {
 
     return (
         <>
-            <Header />
             <main style={{ minHeight: '100vh', background: '#f9fafb' }}>
 
                 {/* ── HERO ──────────────────────────────────── */}
