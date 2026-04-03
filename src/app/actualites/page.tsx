@@ -374,19 +374,53 @@ export default function ActualitesPage() {
                                             display: 'flex', flexDirection: 'column',
                                             animation: `cardIn 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 80}ms both`,
                                         }}>
-                                            {/* Bannière colorée avec shimmer */}
+                                            {/* Bannière — fond sombre neutre, glow orbe coloré */}
                                             <div className="card-banner" style={{
                                                 height: '120px',
-                                                background: `linear-gradient(135deg, ${article.image_couleur}30 0%, ${article.image_couleur}18 100%)`,
-                                                borderBottom: `1px solid ${article.image_couleur}30`,
+                                                background: 'linear-gradient(160deg, #1a2e3a 0%, #0f1f2b 100%)',
+                                                borderBottom: `1px solid ${article.image_couleur}28`,
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                 position: 'relative', overflow: 'hidden',
                                             }}>
                                                 {/* Shimmer sweep */}
                                                 <div className="banner-shimmer" style={{
                                                     position: 'absolute', inset: 0,
-                                                    background: `linear-gradient(105deg, transparent 40%, ${article.image_couleur}20 50%, transparent 60%)`,
+                                                    background: `linear-gradient(105deg, transparent 40%, ${article.image_couleur}12 50%, transparent 60%)`,
                                                     backgroundSize: '200% 100%',
+                                                }} />
+
+                                                {/* Grille pointillée subtile */}
+                                                <div style={{
+                                                    position: 'absolute', inset: 0,
+                                                    opacity: 0.04,
+                                                    backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                                                    backgroundSize: '20px 20px',
+                                                    pointerEvents: 'none',
+                                                }} />
+
+                                                {/* Orbe glow top-right — grand */}
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    top: '-22px', right: '-22px',
+                                                    width: '85px', height: '85px',
+                                                    borderRadius: '50%',
+                                                    background: article.image_couleur,
+                                                    opacity: 0.55,
+                                                    filter: 'blur(24px)',
+                                                    animation: `orbFloat ${6 + (i % 3)}s ease-in-out ${i * 0.4}s infinite`,
+                                                    pointerEvents: 'none',
+                                                }} />
+                                                {/* Orbe glow top-right — petit (noyau brillant) */}
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    top: '8px', right: '12px',
+                                                    width: '32px', height: '32px',
+                                                    borderRadius: '50%',
+                                                    background: article.image_couleur,
+                                                    opacity: 0.75,
+                                                    filter: 'blur(8px)',
+                                                    animation: `orbFloat ${7 + (i % 2)}s ease-in-out ${0.6 + i * 0.3}s infinite reverse`,
+                                                    pointerEvents: 'none',
                                                 }} />
 
                                                 <div style={{
