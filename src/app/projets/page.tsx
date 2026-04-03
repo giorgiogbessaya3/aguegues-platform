@@ -178,7 +178,18 @@ export default function ProjetsPage() {
 
     return (
         <>
-        <main className="min-h-screen bg-slate-50">
+        <main style={{
+            minHeight: '100vh',
+            background: '#0a1620',
+            backgroundImage: 'url(/commune/arrpresentation.jpeg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+            position: 'relative',
+        }}>
+            {/* Overlay fixe sombre */}
+            <div style={{ position: 'fixed', inset: 0, background: 'linear-gradient(135deg, rgba(10,22,32,0.93) 0%, rgba(10,22,32,0.88) 100%)', pointerEvents: 'none', zIndex: 0 }} />
+            <div style={{ position: 'relative', zIndex: 1 }}>
             {/* Hero */}
             <div
                 className="text-white relative overflow-hidden"
@@ -190,7 +201,7 @@ export default function ProjetsPage() {
                 }}
             >
                 {/* Overlay sombre pour lisibilité */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-950/90 via-green-900/80 to-green-800/70" />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0a1620 0%, rgba(10,22,32,0.75) 60%, rgba(10,22,32,0.5) 100%)' }} />
                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
 
@@ -231,8 +242,8 @@ export default function ProjetsPage() {
 
 
             {/* Filtres */}
-            <div className="sticky top-16 z-20 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
-                <div className="container mx-auto px-4 lg:px-8 max-w-5xl py-3 flex gap-2 overflow-x-auto no-scrollbar">
+            <div style={{ position: 'sticky', top: '64px', zIndex: 20, background: 'rgba(10,22,32,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="container mx-auto px-4 lg:px-8 max-w-5xl" style={{ padding: '0.625rem 1rem', display: 'flex', gap: '0.5rem', overflowX: 'auto' }}>
                     {CATEGORIES.map(cat => {
                         const Icon = cat.icon
                         const active = filtre === cat.id
@@ -240,14 +251,23 @@ export default function ProjetsPage() {
                             <button
                                 key={cat.id}
                                 onClick={() => setFiltre(cat.id)}
-                                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 border ${active
-                                    ? 'bg-[#1a5c2a] text-white border-[#1a5c2a] shadow-md shadow-green-900/20'
-                                    : 'bg-white text-slate-600 border-slate-200 hover:border-green-400 hover:text-[#1a5c2a]'}`}
+                                style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+                                    padding: '0.45rem 0.875rem', borderRadius: '999px',
+                                    cursor: 'pointer', fontWeight: 600, fontSize: '0.8125rem', fontFamily: 'inherit',
+                                    whiteSpace: 'nowrap',
+                                    background: active ? 'rgba(52,211,153,0.18)' : 'rgba(255,255,255,0.05)',
+                                    color: active ? '#34d399' : '#7ea8a8',
+                                    border: `1.5px solid ${active ? 'rgba(52,211,153,0.5)' : 'rgba(255,255,255,0.1)'}`,
+                                    boxShadow: active ? '0 0 16px rgba(52,211,153,0.2)' : 'none',
+                                    transform: active ? 'scale(1.05)' : 'scale(1)',
+                                    transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+                                }}
                             >
-                                <Icon size={14} />
+                                <Icon size={13} />
                                 {cat.label}
                                 {cat.id !== 'tous' && (
-                                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                                    <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.45rem', borderRadius: '999px', fontWeight: 700, background: active ? 'rgba(52,211,153,0.2)' : 'rgba(255,255,255,0.08)', color: active ? '#34d399' : '#7ea8a8' }}>
                                         {projets.filter(p => p.categorie === cat.id).length}
                                     </span>
                                 )}
@@ -258,106 +278,113 @@ export default function ProjetsPage() {
             </div>
 
             {/* Liste */}
-            <div className="container mx-auto px-4 lg:px-8 py-12 max-w-5xl">
+            <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem)' }}>
                 {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-full animate-spin" />
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem 0' }}>
+                        <div style={{ width: '48px', height: '48px', border: '3px solid rgba(52,211,153,0.2)', borderTopColor: '#34d399', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
                     </div>
                 ) : projetsFiltres.length === 0 ? (
-                    <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                        <div className="text-6xl mb-4">🌱</div>
-                        <h3 className="text-2xl font-bold text-slate-800 mb-2">Aucun projet dans cette catégorie</h3>
-                        <p className="text-slate-500 mb-6">D'autres initiatives seront bientôt publiées ici.</p>
-                        <button onClick={() => setFiltre('tous')} className="px-6 py-2.5 bg-[#1a5c2a] text-white font-bold rounded-xl text-sm hover:bg-green-700 transition">
+                    <div style={{ textAlign: 'center', padding: '5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌱</div>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'white', marginBottom: '0.5rem' }}>Aucun projet dans cette catégorie</h3>
+                        <p style={{ color: '#7ea8a8', marginBottom: '1.5rem' }}>D&apos;autres initiatives seront bientôt publiées ici.</p>
+                        <button onClick={() => setFiltre('tous')} style={{ padding: '0.625rem 1.5rem', background: '#34d399', color: '#0a1620', fontWeight: 800, borderRadius: '12px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
                             Voir tous les projets
                         </button>
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {projetsFiltres.map((projet) => {
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '1.125rem' }}>
+                        {projetsFiltres.map((projet, idx) => {
                             const isPopulaire = projet.pourcentage === maxPourcentage
                             const IconCat = projet.categorie ? ICONES_CATEGORIES[projet.categorie] : Leaf
                             const urgence = (projet.jours_restants ?? 99) <= 7
+                            const pct = projet.pourcentage
+                            const barColor = pct >= 75 ? '#34d399' : pct >= 50 ? '#fbbf24' : '#fb923c'
                             return (
                                 <Link
                                     href={`/projets/${projet.slug}`}
                                     key={projet.id}
-                                    className="group block bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative"
+                                    style={{ textDecoration: 'none' }}
                                 >
-                                    {/* Badges */}
-                                    <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-                                        {isPopulaire && (
-                                            <span className="bg-yellow-400 text-yellow-900 text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
-                                                🔥 Populaire
-                                            </span>
-                                        )}
-                                        {urgence && (
-                                            <span className="bg-red-500 text-white text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-lg animate-pulse">
-                                                ⏰ Urgent
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    {/* Image */}
-                                    <div className="h-44 bg-slate-200 overflow-hidden relative">
-                                        {projet.image_url ? (
-                                            <img src={projet.image_url} alt={projet.titre} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
-                                                {IconCat && <IconCat size={48} className="text-green-300" />}
-                                            </div>
-                                        )}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                                    </div>
-
-                                    <div className="p-5">
-                                        {projet.categorie && (
-                                            <div className="inline-flex items-center gap-1 text-xs font-bold text-[#1a5c2a] uppercase tracking-widest bg-green-50 px-2.5 py-1 rounded-full mb-3 border border-green-100">
-                                                {IconCat && <IconCat size={10} />}
-                                                {CATEGORIES.find(c => c.id === projet.categorie)?.label ?? projet.categorie}
-                                            </div>
-                                        )}
-                                        <h3 className="text-base font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-[#1a5c2a] transition leading-snug">
-                                            {projet.titre}
-                                        </h3>
-                                        <p className="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">{projet.description_courte}</p>
-
-                                        {/* Progress */}
-                                        <div className="space-y-1.5 mb-4">
-                                            <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                                                <div
-                                                    className="h-full rounded-full transition-all duration-1000 ease-out"
-                                                    style={{
-                                                        width: `${projet.pourcentage}%`,
-                                                        background: projet.pourcentage >= 75 ? '#16a34a' : projet.pourcentage >= 50 ? '#22c55e' : '#86efac'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="flex justify-between text-xs font-semibold">
-                                                <span className="text-[#1a5c2a]">
-                                                    {new Intl.NumberFormat('fr-FR').format(projet.montant_collecte)} FCFA
+                                    <div className="projet-card" style={{
+                                        background: 'rgba(53,78,84,0.45)',
+                                        backdropFilter: 'blur(16px)',
+                                        border: '1px solid rgba(255,255,255,0.12)',
+                                        borderRadius: '20px',
+                                        overflow: 'hidden',
+                                        cursor: 'pointer',
+                                        display: 'flex', flexDirection: 'column',
+                                        animation: `cardIn 0.5s cubic-bezier(0.22,1,0.36,1) ${idx * 80}ms both`,
+                                        position: 'relative',
+                                        transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, border-color 0.28s',
+                                    }}>
+                                        {/* Badges */}
+                                        <div style={{ position: 'absolute', top: '12px', left: '12px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            {isPopulaire && (
+                                                <span style={{ background: '#fbbf24', color: '#92400e', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', padding: '0.2rem 0.625rem', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                    🔥 Populaire
                                                 </span>
-                                                <span className="text-slate-400">{projet.pourcentage}%</span>
-                                            </div>
+                                            )}
+                                            {urgence && (
+                                                <span style={{ background: '#ef4444', color: 'white', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', padding: '0.2rem 0.625rem', borderRadius: '999px', animation: 'pulseDot 1.4s ease-in-out infinite' }}>
+                                                    ⏰ Urgent
+                                                </span>
+                                            )}
                                         </div>
 
-                                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                                            <div className="flex items-center gap-3 text-xs text-slate-400 font-semibold">
-                                                {projet.nb_donateurs !== undefined && (
-                                                    <span className="flex items-center gap-1">
-                                                        <Users size={12} />
-                                                        {projet.nb_donateurs}
-                                                    </span>
-                                                )}
-                                                {projet.jours_restants !== undefined && (
-                                                    <span className={`flex items-center gap-1 ${urgence ? 'text-red-500' : ''}`}>
-                                                        ⏱ {projet.jours_restants}j restants
-                                                    </span>
-                                                )}
+                                        {/* Bannière */}
+                                        <div style={{ height: '120px', background: 'linear-gradient(160deg, #1a2e3a 0%, #0f1f2b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+                                            {/* Grille pointillée */}
+                                            <div style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                                            {/* Glow orbe top-right */}
+                                            <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: barColor, opacity: 0.5, filter: 'blur(22px)', animation: `orbFloat ${6 + idx % 3}s ease-in-out ${idx * 0.4}s infinite`, pointerEvents: 'none' }} />
+                                            <div style={{ position: 'absolute', top: '8px', right: '12px', width: '30px', height: '30px', borderRadius: '50%', background: barColor, opacity: 0.7, filter: 'blur(8px)', animation: `orbFloat ${7 + idx % 2}s ease-in-out ${0.6 + idx * 0.3}s infinite reverse`, pointerEvents: 'none' }} />
+                                            {projet.image_url ? (
+                                                <img src={projet.image_url} alt={projet.titre} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+                                            ) : (
+                                                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${barColor}22`, border: `1.5px solid ${barColor}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 20px ${barColor}30`, position: 'relative', zIndex: 1 }}>
+                                                    {IconCat && <IconCat size={24} color={barColor} />}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div style={{ padding: '1.125rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                            {projet.categorie && (
+                                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', padding: '0.2rem 0.625rem', borderRadius: '999px', background: `${barColor}15`, border: `1px solid ${barColor}35`, color: barColor, fontSize: '0.72rem', fontWeight: 700, marginBottom: '0.625rem', letterSpacing: '0.04em', alignSelf: 'flex-start' }}>
+                                                    {IconCat && <IconCat size={11} />} {CATEGORIES.find(c => c.id === projet.categorie)?.label ?? projet.categorie}
+                                                </span>
+                                            )}
+                                            <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'white', margin: '0 0 0.375rem', lineHeight: 1.4 }}>{projet.titre}</h3>
+                                            <p style={{ fontSize: '0.8125rem', color: '#7ea8a8', lineHeight: 1.65, margin: '0 0 0.875rem', flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{projet.description_courte}</p>
+
+                                            {/* Progress */}
+                                            <div style={{ marginBottom: '0.75rem' }}>
+                                                <div style={{ width: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '999px', height: '6px', overflow: 'hidden', marginBottom: '0.375rem' }}>
+                                                    <div style={{ height: '100%', borderRadius: '999px', width: `${pct}%`, background: `linear-gradient(90deg, ${barColor}99, ${barColor})`, boxShadow: `0 0 8px ${barColor}60`, transition: 'width 1s ease-out' }} />
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 700 }}>
+                                                    <span style={{ color: barColor }}>{new Intl.NumberFormat('fr-FR').format(projet.montant_collecte)} FCFA</span>
+                                                    <span style={{ color: '#7ea8a8' }}>{pct}%</span>
+                                                </div>
                                             </div>
-                                            <span className="w-8 h-8 rounded-full bg-green-50 text-[#1a5c2a] flex items-center justify-center group-hover:bg-[#1a5c2a] group-hover:text-white transition">
-                                                <ArrowRight size={15} />
-                                            </span>
+
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.625rem', borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: 'auto' }}>
+                                                <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.75rem', color: '#7ea8a8', fontWeight: 600 }}>
+                                                    {projet.nb_donateurs !== undefined && (
+                                                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                            <Users size={12} /> {projet.nb_donateurs}
+                                                        </span>
+                                                    )}
+                                                    {projet.jours_restants !== undefined && (
+                                                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: urgence ? '#f87171' : '#7ea8a8' }}>
+                                                            ⏱ {projet.jours_restants}j restants
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <span style={{ width: '32px', height: '32px', borderRadius: '50%', background: `${barColor}15`, border: `1px solid ${barColor}35`, color: barColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s' }}>
+                                                    <ArrowRight size={15} />
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </Link>
@@ -381,10 +408,30 @@ export default function ProjetsPage() {
                     </Link>
                 </div>
             </div>
-
-            {/* Transition couleur vers footer */}
-            <div style={{ background: 'linear-gradient(to bottom, #f8fafc 0%, #0d1f12 100%)', height: '80px', marginTop: '0' }} />
+            </div>
         </main>
+        <style>{`
+            @keyframes cardIn {
+                from { opacity: 0; transform: translateY(16px) scale(0.97); }
+                to   { opacity: 1; transform: translateY(0) scale(1); }
+            }
+            @keyframes orbFloat {
+                0%,100% { transform: translateY(0); }
+                50%      { transform: translateY(-10px); }
+            }
+            @keyframes pulseDot {
+                0%,100% { opacity: 1; }
+                50%      { opacity: 0.5; }
+            }
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+            .projet-card:hover {
+                transform: translateY(-6px) scale(1.01) !important;
+                border-color: rgba(126,200,200,0.22) !important;
+                box-shadow: 0 16px 48px rgba(0,0,0,0.4) !important;
+            }
+        `}</style>
         <Footer />
         </>
     )
