@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Footer from '@/components/layout/Footer'
 import { ArrowRight, Leaf, Heart, TrendingUp, BookOpen, Stethoscope, Building2, Droplets, TreePine, Zap, Users, Target } from 'lucide-react'
 
 type Projet = {
@@ -176,48 +177,50 @@ export default function ProjetsPage() {
     const maxPourcentage = Math.max(...projets.map(p => p.pourcentage))
 
     return (
+        <>
         <main className="min-h-screen bg-slate-50">
             {/* Hero */}
             <div
-                className="text-white pt-28 pb-20 relative overflow-hidden"
+                className="text-white relative overflow-hidden"
                 style={{
                     backgroundImage: 'url(/commune/arrpresentation.jpeg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
+                    padding: 'clamp(2rem, 5vw, 3rem) 0 clamp(1.5rem, 3vw, 2.25rem)',
                 }}
             >
                 {/* Overlay sombre pour lisibilité */}
                 <div className="absolute inset-0 bg-gradient-to-br from-green-950/90 via-green-900/80 to-green-800/70" />
                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-                <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-400/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
 
                 <div className="container mx-auto px-4 lg:px-8 relative z-10 max-w-5xl">
-                    <div className="inline-flex items-center gap-2 bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-yellow-400/30">
-                        <Heart size={12} className="animate-pulse" /> Solidarité communautaire
+                    <div className="inline-flex items-center gap-2 bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4 border border-yellow-400/30">
+                        <Heart size={11} className="animate-pulse" /> Solidarité communautaire
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight">
+                    <h1 className="text-3xl md:text-4xl font-black mb-3 tracking-tight leading-tight">
                         Projets à <span className="text-yellow-400">Soutenir</span>
                     </h1>
-                    <p className="text-lg md:text-xl text-green-100 max-w-2xl font-light mb-12">
-                        Devenez acteur du développement des Aguégués. Chaque contribution, quelle que soit sa taille, bâtit l'avenir de notre commune.
+                    <p className="text-base text-green-100 max-w-xl font-light mb-6">
+                        Devenez acteur du développement des Aguégués. Chaque contribution bâtit l&apos;avenir de notre commune.
                     </p>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 text-center">
-                            <div className="text-2xl md:text-3xl font-black text-yellow-400 mb-1">
+                    <div className="grid grid-cols-3 gap-3 max-w-lg">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
+                            <div className="text-xl md:text-2xl font-black text-yellow-400 mb-0.5">
                                 <AnimatedCounter end={projets.length} />
                             </div>
                             <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Projets actifs</div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 text-center">
-                            <div className="text-xl md:text-2xl font-black text-yellow-400 mb-1">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
+                            <div className="text-lg md:text-xl font-black text-yellow-400 mb-0.5">
                                 <AnimatedCounter end={Math.round(totalCollecte / 1000000)} suffix="M FCFA" />
                             </div>
                             <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Collectés</div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 text-center">
-                            <div className="text-2xl md:text-3xl font-black text-yellow-400 mb-1">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
+                            <div className="text-xl md:text-2xl font-black text-yellow-400 mb-0.5">
                                 <AnimatedCounter end={totalDonateurs} suffix="+" />
                             </div>
                             <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Donateurs</div>
@@ -225,6 +228,7 @@ export default function ProjetsPage() {
                     </div>
                 </div>
             </div>
+
 
             {/* Filtres */}
             <div className="sticky top-16 z-20 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
@@ -363,18 +367,25 @@ export default function ProjetsPage() {
                 )}
 
                 {/* CTA Proposer un projet */}
-                <div className="mt-16 bg-gradient-to-r from-[#1a5c2a] to-green-700 rounded-3xl p-8 md:p-12 text-white text-center relative overflow-hidden">
+                <div className="mt-10 bg-gradient-to-r from-[#1a5c2a] to-green-700 rounded-2xl p-5 md:p-7 text-white relative overflow-hidden flex flex-col md:flex-row items-center gap-4 md:gap-6">
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-                    <TrendingUp size={48} className="mx-auto mb-4 text-yellow-400 relative z-10" />
-                    <h2 className="text-2xl md:text-3xl font-black mb-3 relative z-10">Vous avez un projet pour les Aguégués ?</h2>
-                    <p className="text-green-100 mb-6 max-w-lg mx-auto relative z-10">
-                        Soumettez votre initiative communautaire à la mairie. Les meilleures propositions seront publiées sur cette plateforme et financées par la diaspora.
-                    </p>
-                    <Link href="/contact" className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 font-black px-8 py-3.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg relative z-10">
-                        Proposer un projet <ArrowRight size={18} />
+                    <TrendingUp size={36} className="text-yellow-400 relative z-10 shrink-0" />
+                    <div className="flex-1 text-center md:text-left relative z-10">
+                        <h2 className="text-lg md:text-xl font-black mb-1">Vous avez un projet pour les Aguégués ?</h2>
+                        <p className="text-green-100 text-sm max-w-lg">
+                            Soumettez votre initiative à la mairie. Les meilleures propositions seront publées et financées par la diaspora.
+                        </p>
+                    </div>
+                    <Link href="/contact" className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 font-black px-6 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg relative z-10 shrink-0 text-sm whitespace-nowrap">
+                        Proposer un projet <ArrowRight size={16} />
                     </Link>
                 </div>
             </div>
+
+            {/* Transition couleur vers footer */}
+            <div style={{ background: 'linear-gradient(to bottom, #f8fafc 0%, #0d1f12 100%)', height: '80px', marginTop: '0' }} />
         </main>
+        <Footer />
+        </>
     )
 }
