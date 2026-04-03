@@ -469,78 +469,118 @@ export default function AProposPage() {
                 </section>
 
                 {/* ════════════════════════════════════════════════
-                    INFORMATIONS DE CONTACT MAIRIE
+                    CONTACT MAIRIE — BANDEAU COMPACT
                 ════════════════════════════════════════════════ */}
-                <section style={{ padding: 'clamp(2.5rem, 5vw, 4rem) 0', background: '#f0f4f8' }}>
-                    <div className="container-main">
-                        <AnimSection>
-                            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                                <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 900, color: '#111827', margin: '0 0 0.875rem' }}>
-                                    Contacter la Mairie
-                                </h2>
-                                <p style={{ fontSize: '1.0625rem', color: '#6b7280', maxWidth: '480px', margin: '0 auto' }}>
-                                    Retrouvez toutes les coordonnées officielles de la Mairie des Aguégués.
-                                </p>
-                            </div>
-                        </AnimSection>
+                <AnimSection>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #0d1f12 0%, #1a5c2a 55%, #1e3a5f 100%)',
+                        backgroundImage: 'url(/commune/arrpresentation.jpeg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        position: 'relative', overflow: 'hidden',
+                    }}>
+                        {/* Overlay */}
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(8,20,14,0.93) 0%, rgba(26,92,42,0.88) 50%, rgba(10,25,55,0.92) 100%)', pointerEvents: 'none' }} />
+                        {/* Motif */}
+                        <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: '1.25rem', maxWidth: '900px', margin: '0 auto' }}>
-                            {[
-                                { icon: <MapPin size={22} />, titre: 'Adresse', vals: ['Mairie des Aguégués', 'BP 1179, Aguégués', 'Département de l\'Ouémé, Bénin'], color: '#1a5c2a', bg: '#dcf0e4' },
-                                { icon: <Phone size={22} />, titre: 'Téléphones', vals: ['+229 97 33 87 49', '+229 97 85 62 18'], color: '#1e3a5f', bg: '#eff4fb' },
-                                { icon: <Mail size={22} />, titre: 'Email', vals: ['mairiedesaguegues@yahoo.fr'], color: '#c4940a', bg: '#fef3c7' },
-                                { icon: <Clock size={22} />, titre: 'Horaires', vals: ['Lun – Ven : 8h00 – 17h00', 'Week-end : Fermé'], color: '#7c3aed', bg: '#f5f3ff' },
-                            ].map(({ icon, titre, vals, color, bg }, i) => (
-                                <AnimSection key={titre} delay={i * 100}>
-                                    <div style={{
-                                        background: 'white', borderRadius: '18px',
-                                        boxShadow: '0 2px 16px rgba(0,0,0,0.07)',
-                                        padding: '1.5rem',
-                                        border: `2px solid ${color}10`,
-                                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        <div className="container-main" style={{ position: 'relative', padding: 'clamp(2rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem)' }}>
+                            {/* Titre */}
+                            <div style={{ textAlign: 'center', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.3rem 0.875rem', background: 'rgba(110,231,160,0.12)', border: '1px solid rgba(110,231,160,0.25)', borderRadius: '999px', marginBottom: '0.75rem' }}>
+                                    <MapPin size={13} color="#6ee7a0" />
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6ee7a0', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Coordonnées officielles</span>
+                                </div>
+                                <h2 style={{ fontSize: 'clamp(1.35rem, 3vw, 1.875rem)', fontWeight: 900, color: 'white', margin: 0 }}>Contacter la Mairie</h2>
+                            </div>
+
+                            {/* Rail 4 blocs */}
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '1px', background: 'rgba(255,255,255,0.08)', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                {[
+                                    { icon: <MapPin size={20} />, label: 'Adresse', lines: ['BP 1179, Aguégués', 'Département de l\'Ouémé'], color: '#6ee7a0' },
+                                    { icon: <Phone size={20} />, label: 'Téléphone', lines: ['+229 97 33 87 49', '+229 97 85 62 18'], color: '#93c5fd' },
+                                    { icon: <Mail size={20} />, label: 'Email', lines: ['mairiedesaguegues@yahoo.fr'], color: '#fcd34d' },
+                                    { icon: <Clock size={20} />, label: 'Horaires', lines: ['Lun – Ven : 8h – 17h', 'Week-end : Fermé'], color: '#c4b5fd' },
+                                ].map(({ icon, label, lines, color }, i) => (
+                                    <div key={label} style={{
+                                        padding: '1.25rem 1.5rem',
+                                        background: 'rgba(255,255,255,0.04)',
+                                        transition: 'background 0.2s',
+                                        cursor: 'default',
                                     }}
-                                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 12px 30px ${color}15` }}
-                                        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.07)' }}
+                                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.09)'}
+                                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
                                     >
-                                        <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color, marginBottom: '1.125rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.625rem', color }}>
                                             {icon}
+                                            <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</span>
                                         </div>
-                                        <h3 style={{ fontSize: '0.875rem', fontWeight: 800, color: '#111827', margin: '0 0 0.625rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{titre}</h3>
-                                        {vals.map(v => <p key={v} style={{ fontSize: '0.9rem', color: '#4b5563', margin: '0 0 0.25rem', lineHeight: 1.5 }}>{v}</p>)}
+                                        {lines.map(l => (
+                                            <div key={l} style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5 }}>{l}</div>
+                                        ))}
                                     </div>
-                                </AnimSection>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </section>
+                </AnimSection>
 
                 {/* ════════════════════════════════════════════════
-                    NOS VALEURS
+                    NOS VALEURS — COMPACT PREMIUM
                 ════════════════════════════════════════════════ */}
-                <section style={{ padding: 'clamp(3rem, 6vw, 5rem) 0', background: '#f9fafb' }}>
-                    <div className="container-main">
+                <section style={{
+                    padding: 'clamp(2rem, 4vw, 3rem) 0',
+                    background: 'linear-gradient(to right, #f8faff 0%, #dce8fc 18%, #1e3a5f 42%, #0f2441 50%, #1e3a5f 58%, #dce8fc 82%, #f8faff 100%)',
+                    position: 'relative', overflow: 'hidden',
+                }}>
+                    {/* Halo central */}
+                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '400px', background: 'radial-gradient(ellipse, rgba(74,144,217,0.25) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                    {/* Grille de fond */}
+                    <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'linear-gradient(rgba(30,58,95,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(30,58,95,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
+
+                    <div className="container-main" style={{ position: 'relative' }}>
                         <AnimSection>
-                            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.875rem', background: '#fef3c7', borderRadius: '999px', marginBottom: '0.875rem' }}>
-                                    <Heart size={14} color="#92400e" />
-                                    <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Ce qui nous guide</span>
+                            <div style={{ textAlign: 'center', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.3rem 0.875rem', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.4)', borderRadius: '999px', marginBottom: '0.75rem', backdropFilter: 'blur(6px)' }}>
+                                    <Heart size={13} color="white" />
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Ce qui nous guide</span>
                                 </div>
-                                <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 900, color: '#111827', margin: '0 0 0.875rem' }}>
+                                <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2rem)', fontWeight: 900, color: 'white', margin: 0, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>
                                     Nos Valeurs
                                 </h2>
                             </div>
                         </AnimSection>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '1.25rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '1rem' }}>
                             {valeurs.map(({ icon, titre, texte, couleur, bg }, i) => (
                                 <AnimSection key={titre} delay={i * 100}>
-                                    <div style={{ background: 'white', borderRadius: '18px', boxShadow: '0 2px 16px rgba(0,0,0,0.07)', padding: '2rem 1.5rem', transition: 'transform 0.2s, box-shadow 0.2s' }}
-                                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.1)' }}
-                                        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.07)' }}
+                                    <div style={{
+                                        background: 'white',
+                                        borderRadius: '16px',
+                                        boxShadow: '0 4px 24px rgba(15,36,65,0.18)',
+                                        padding: '1.375rem 1.25rem',
+                                        borderTop: `4px solid ${couleur}`,
+                                        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                                        cursor: 'default',
+                                    }}
+                                        onMouseEnter={e => {
+                                            e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)'
+                                            e.currentTarget.style.boxShadow = `0 20px 40px rgba(15,36,65,0.28)`
+                                        }}
+                                        onMouseLeave={e => {
+                                            e.currentTarget.style.transform = ''
+                                            e.currentTarget.style.boxShadow = '0 4px 24px rgba(15,36,65,0.18)'
+                                        }}
                                     >
-                                        <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem', color: couleur }}>{icon}</div>
-                                        <h3 style={{ fontSize: '1.125rem', fontWeight: 800, color: '#111827', margin: '0 0 0.625rem' }}>{titre}</h3>
-                                        <p style={{ fontSize: '0.9rem', color: '#6b7280', lineHeight: 1.7, margin: 0 }}>{texte}</p>
+                                        {/* Icône */}
+                                        <div style={{
+                                            width: '44px', height: '44px', borderRadius: '12px',
+                                            background: bg, display: 'flex', alignItems: 'center',
+                                            justifyContent: 'center', marginBottom: '1rem', color: couleur,
+                                        }}>{icon}</div>
+
+                                        <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#111827', margin: '0 0 0.4rem' }}>{titre}</h3>
+                                        <p style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.65, margin: 0 }}>{texte}</p>
                                     </div>
                                 </AnimSection>
                             ))}
