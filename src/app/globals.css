@@ -595,3 +595,142 @@ h6 {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ============================================
+   RESPONSIVE — TABLETTE & MOBILE
+   ============================================ */
+
+/* ── Utilitaires responsifs ── */
+.responsive-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.responsive-flex-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ── Tablette (≤ 1024px) ── */
+@media (max-width: 1024px) {
+  .container-main {
+    padding: 0 1.25rem;
+  }
+
+  .section-padding {
+    padding: 3.5rem 0;
+  }
+
+  /* Grille 2 col → adaptatif */
+  .responsive-grid-2col {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  }
+}
+
+/* ── Mobile (≤ 640px) ── */
+@media (max-width: 640px) {
+
+  /* Container */
+  .container-main {
+    padding: 0 1rem;
+  }
+
+  /* Typography */
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Cards */
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Grilles de cards → 1 colonne */
+  .responsive-grid-cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Boutons — pleine largeur sur mobile si classe full-mobile */
+  .btn-full-mobile {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Section padding réduit */
+  .section-padding {
+    padding: 2.5rem 0;
+  }
+}
+
+/* ── Très petit mobile (≤ 380px) ── */
+@media (max-width: 380px) {
+  html {
+    font-size: 15px;
+  }
+
+  .container-main {
+    padding: 0 0.75rem;
+  }
+
+  .btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* ── Grilles auto-fill — min réduit sur mobile ── */
+@media (max-width: 500px) {
+
+  /* Force les grilles auto-fill avec min 280px à passer en 1 col */
+  [style*="minmax(300px"] {
+    /* Hint uniquement, override dans chaque page */
+  }
+}
+
+/* ── Corrections page layout ── */
+@media (max-width: 767px) {
+
+  /* Éviter l'overflow horizontal global */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Formulaires : éviter le zoom sur iOS */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Breadcrumb wrap */
+  .breadcrumb-wrap {
+    flex-wrap: wrap;
+  }
+
+  /* Hero header — réduire padding */
+  .hero-header-section {
+    padding: 2rem 0 1.5rem !important;
+  }
+}
+
+/* ── Tablette : sidebar visible → adapter le contenu ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .page-content-wrapper {
+    /* Sidebar de 240px déjà prise en compte */
+  }
+
+  .responsive-grid-cards {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}

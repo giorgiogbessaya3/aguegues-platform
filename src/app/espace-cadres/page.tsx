@@ -205,7 +205,7 @@ export default function EspaceCadresPage() {
                                     <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>Modifiez vos critères de recherche.</p>
                                 </div>
                             ) : (
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.125rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '1.125rem' }}>
                                     {resultats.map(c => (
                                         <div key={c.id} style={{
                                             background: 'white', borderRadius: '16px',
@@ -288,12 +288,12 @@ export default function EspaceCadresPage() {
 
                             {/* CTA inscription */}
                             <div style={{
-                                marginTop: '2.5rem', padding: '1.75rem 2rem',
+                                marginTop: '2.5rem', padding: '1.75rem 1.5rem',
                                 background: 'linear-gradient(135deg, #1e3a5f, #1a5c2a)',
                                 borderRadius: '18px', display: 'flex', flexWrap: 'wrap',
                                 alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
-                            }}>
-                                <div>
+                            }} className="cta-cadres-banner">
+                                <div style={{ flex: 1, minWidth: '200px' }}>
                                     <div style={{ fontSize: '1.0625rem', fontWeight: 800, color: 'white', marginBottom: '0.25rem' }}>
                                         Vous êtes originaire des Aguégués ?
                                     </div>
@@ -305,6 +305,7 @@ export default function EspaceCadresPage() {
                                     padding: '0.75rem 1.5rem', background: 'white', color: '#1a5c2a',
                                     border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '0.9rem',
                                     cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.2)', fontFamily: 'inherit',
+                                    whiteSpace: 'nowrap',
                                 }}>
                                     + M&apos;inscrire comme cadre
                                 </button>
@@ -350,11 +351,11 @@ export default function EspaceCadresPage() {
 
                                 {/* Sect 1 — Identité */}
                                 <InscriptionSection num="1" titre="Identité">
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                    <div className="form-grid-2col">
                                         <F label="Nom *"><input required value={form.nom} onChange={e => set('nom', e.target.value)} placeholder="AGOSSOU" style={IS} /></F>
                                         <F label="Prénom *"><input required value={form.prenom} onChange={e => set('prenom', e.target.value)} placeholder="Jean-Baptiste" style={IS} /></F>
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                    <div className="form-grid-2col">
                                         <F label="Téléphone"><input value={form.telephone} onChange={e => set('telephone', e.target.value)} placeholder="+229 97 000 000" type="tel" style={IS} /></F>
                                         <F label="Email"><input value={form.email} onChange={e => set('email', e.target.value)} placeholder="jean@example.com" type="email" style={IS} /></F>
                                     </div>
@@ -412,6 +413,7 @@ export default function EspaceCadresPage() {
                 </div>
             </main>
             <Footer />
+            <style>{espacesCadresStyles}</style>
         </>
     )
 }
@@ -438,9 +440,32 @@ function F({ label, children }: { label: string; children: React.ReactNode }) {
     )
 }
 
+// Style des inputs du formulaire
 const IS: React.CSSProperties = {
     width: '100%', padding: '0.75rem 1rem',
     borderRadius: '10px', border: '1.5px solid #e5e7eb',
     fontSize: '0.9375rem', color: '#111827', background: 'white',
     outline: 'none', boxSizing: 'border-box', fontFamily: 'inherit',
 }
+
+// Styles responsifs espace-cadres
+const espacesCadresStyles = `
+    .form-grid-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    @media (max-width: 560px) {
+        .form-grid-2col {
+            grid-template-columns: 1fr;
+        }
+        .cta-cadres-banner {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+        }
+        .cta-cadres-banner button {
+            width: 100%;
+        }
+    }
+`

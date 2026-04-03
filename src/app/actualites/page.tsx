@@ -150,7 +150,7 @@ export default function ActualitesPage() {
                     <Link href={`/actualites/${vedette.slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: '2rem' }}>
                         <div style={{
                             background: `linear-gradient(135deg, ${vedette.image_couleur}ee 0%, ${vedette.image_couleur}cc 100%)`,
-                            borderRadius: '20px', padding: '2.5rem 2rem', position: 'relative', overflow: 'hidden', cursor: 'pointer',
+                            borderRadius: '20px', padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2rem)', position: 'relative', overflow: 'hidden', cursor: 'pointer',
                             transition: 'transform 0.2s, box-shadow 0.2s',
                         }}
                             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,0,0,0.2)' }}
@@ -238,7 +238,7 @@ export default function ActualitesPage() {
                             <p style={{ color: 'var(--color-gray-500)', fontWeight: 500 }}>Aucun article trouvé.</p>
                         </div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.25rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '1.25rem' }}>
                             {resultats.slice(1).map((article) => {
                                 const cat = categorieConfig[article.categorie]
                                 return (
@@ -292,6 +292,12 @@ export default function ActualitesPage() {
                 </div>
             </main>
             <Footer />
+            <style>{`
+                @media (max-width: 500px) {
+                    .actualites-vedette { padding: 1.5rem 1.25rem !important; }
+                    .actualites-grid { grid-template-columns: 1fr !important; }
+                }
+            `}</style>
         </>
     )
 }

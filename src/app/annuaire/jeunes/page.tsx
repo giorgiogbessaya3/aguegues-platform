@@ -189,7 +189,7 @@ export default function AnnuaireJeunesPage() {
                             <button className="btn btn-outline" onClick={resetFiltres} style={{ marginTop: '1rem' }}>Réinitialiser</button>
                         </div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.25rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '1.25rem' }}>
                             {resultats.map((jeune) => (
                                 <Link key={jeune.id} href={`/annuaire/jeunes/${jeune.id}`} style={{ textDecoration: 'none' }}>
                                     <div className="card" style={{ height: '100%', cursor: 'pointer' }}>
@@ -245,7 +245,7 @@ export default function AnnuaireJeunesPage() {
                     )}
 
                     {/* CTA inscription */}
-                    <div style={{ marginTop: '3rem', textAlign: 'center', padding: '2.5rem', background: 'white', borderRadius: '16px', boxShadow: 'var(--shadow-card)' }}>
+                    <div style={{ marginTop: '3rem', textAlign: 'center', padding: 'clamp(1.5rem, 4vw, 2.5rem)', background: 'white', borderRadius: '16px', boxShadow: 'var(--shadow-card)' }}>
                         <FileText size={36} color="var(--color-secondary)" style={{ marginBottom: '0.75rem' }} />
                         <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-gray-900)', marginBottom: '0.5rem' }}>
                             Vous êtes un jeune talent des Aguégués ?
@@ -260,6 +260,11 @@ export default function AnnuaireJeunesPage() {
                 </div>
             </main>
             <Footer />
+            <style>{`
+                @media (max-width: 500px) {
+                    .jeunes-grid { grid-template-columns: 1fr !important; }
+                }
+            `}</style>
         </>
     )
 }

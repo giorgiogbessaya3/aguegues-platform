@@ -84,11 +84,11 @@ export default function ProfilCadrePage({ params }: { params: Promise<{ id: stri
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }} className="profil-grid">
                         {/* ---- CARTE PROFIL PRINCIPALE ---- */}
                         <div style={{ background: 'white', borderRadius: '20px', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
-                            <div style={{ background: `linear-gradient(135deg, ${cadre.couleur}18 0%, ${cadre.couleur}08 100%)`, padding: '2rem 2rem 1.5rem' }}>
+                            <div style={{ background: `linear-gradient(135deg, ${cadre.couleur}18 0%, ${cadre.couleur}08 100%)`, padding: 'clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem) 1.5rem' }}>
                                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
                                     {/* Avatar */}
                                     <div className="avatar-placeholder" style={{
-                                        width: '90px', height: '90px', fontSize: '2rem', flexShrink: 0,
+                                        width: 'clamp(64px, 12vw, 90px)', height: 'clamp(64px, 12vw, 90px)', fontSize: 'clamp(1.375rem, 4vw, 2rem)', flexShrink: 0,
                                         background: `linear-gradient(135deg, ${cadre.couleur}30 0%, ${cadre.couleur}15 100%)`,
                                         color: cadre.couleur, border: `3px solid ${cadre.couleur}40`,
                                     }}>
@@ -190,6 +190,15 @@ export default function ProfilCadrePage({ params }: { params: Promise<{ id: stri
             <style>{`
         @media (min-width: 768px) {
           .profil-grid { grid-template-columns: 1fr 340px !important; }
+        }
+        @media (max-width: 640px) {
+          .profil-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .profil-header-avatar {
+            flex-direction: column;
+            align-items: flex-start;
+          }
         }
       `}</style>
         </>

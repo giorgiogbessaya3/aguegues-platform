@@ -175,7 +175,18 @@ function Carousel2() {
     const [index, setIndex] = useState(0)
     const [imgOk, setImgOk] = useState<Record<number, boolean>>({})
     const timer = useRef<ReturnType<typeof setInterval> | null>(null)
-    const maxIndex = Math.ceil(total / 2) - 1
+    // Sur mobile: 1 image, sur desktop: 2 images
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 640)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    const groupSize = isMobile ? 1 : 2
+    const maxIndex = Math.ceil(total / groupSize) - 1
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}/api/carousel`)
@@ -199,7 +210,10 @@ function Carousel2() {
     useEffect(() => {
         timer.current = setInterval(next, 4000)
         return () => { if (timer.current) clearInterval(timer.current) }
-    }, [])
+    }, [maxIndex])
+
+    // Reset index quand groupSize change
+    useEffect(() => { setIndex(0) }, [groupSize])
 
     const handlePrev = () => { prev(); reset() }
     const handleNext = () => { next(); reset() }
@@ -213,10 +227,10 @@ function Carousel2() {
                 transition: 'transform 0.7s cubic-bezier(0.4,0,0.2,1)',
                 height: '100%',
             }}>
-                {Array.from({ length: Math.ceil(total / 2) }, (_, gi) => (
+                {Array.from({ length: Math.ceil(total / groupSize) }, (_, gi) => (
                     <div key={gi} style={{ display: 'flex', minWidth: '100%', height: '100%', gap: '2px' }}>
-                        {[0, 1].map(offset => {
-                            const imgIdx = gi * 2 + offset
+                        {Array.from({ length: groupSize }, (_, offset) => {
+                            const imgIdx = gi * groupSize + offset
                             const img = images[imgIdx]
                             const ph = placeholderData[imgIdx] || placeholderData[0]
                             const hasRealImg = imgOk[imgIdx]
@@ -375,11 +389,10 @@ function Carousel2() {
 export default function HomePage() {
     return (
         <main style={{
-            height: '100dvh',
-            display: 'grid',
-            gridTemplateRows: 'auto 1fr',
-            overflow: 'hidden',
-        }}>
+            minHeight: '100dvh',
+            display: 'flex',
+            flexDirection: 'column',
+        }} className="home-main">
 
                 {/* ── HERO avec fond image ─────────────────── */}
                 <section style={{
@@ -388,8 +401,8 @@ export default function HomePage() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    padding: 'clamp(1rem, 2.5vw, 1.75rem) clamp(1.5rem, 4vw, 3rem)',
-                    minHeight: '0',
+                    padding: 'clamp(1.25rem, 3vw, 2rem) clamp(1rem, 4vw, 3rem)',
+                    minHeight: '0', flexShrink: 0,
                 }}>
                     {/* Overlay sombre */}
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(10,25,15,0.88) 0%, rgba(15,45,74,0.80) 45%, rgba(10,35,18,0.75) 100%)', pointerEvents: 'none' }} />
@@ -433,7 +446,7 @@ export default function HomePage() {
 
 
                 {/* ── CAROUSEL ──────────────────────────────── */}
-                <section style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#0a1a0f' }}>
+                <section style={{ display: 'flex', flexDirection: 'column', background: '#0a1a0f', flex: 1, minHeight: '300px' }}>
                     {/* En-tête carousel */}
                     <div style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -450,7 +463,7 @@ export default function HomePage() {
                         </span>
                     </div>
                     {/* Carousel */}
-                    <div style={{ flex: 1, overflow: 'hidden' }}>
+                    <div style={{ flex: 1, overflow: 'hidden', minHeight: '250px' }}>
                         <Carousel2 />
                     </div>
                 </section>
@@ -459,6 +472,22 @@ export default function HomePage() {
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(200%); }
+        }
+        /* Desktop : layout plein écran fixe */
+        @media (min-width: 640px) {
+          .home-main {
+            height: 100dvh;
+            flex-direction: column;
+            overflow: hidden;
+          }
+        }
+        /* Mobile : scrollable naturellement */
+        @media (max-width: 639px) {
+          .home-main {
+            height: auto;
+            min-height: 100dvh;
+            overflow: auto;
+          }
         }
       `}</style>
         </main>

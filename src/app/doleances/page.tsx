@@ -266,7 +266,7 @@ export default function DoleancesPage() {
 
                             {/* Niveau d'urgence */}
                             <Field label="Niveau d'urgence *">
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.625rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.625rem' }} className="urgence-grid">
                                     {niveauxUrgence.map(({ value, label, desc, color }) => (
                                         <label key={value} style={{
                                             display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -361,6 +361,13 @@ export default function DoleancesPage() {
                 </div>
             </main>
             <Footer />
+            <style>{`
+                @media (max-width: 400px) {
+                    .urgence-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `}</style>
         </>
     )
 }

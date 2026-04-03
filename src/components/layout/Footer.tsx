@@ -46,7 +46,7 @@ export default function Footer() {
                     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                     gap: '2.5rem',
                     marginBottom: '2.5rem',
-                }}>
+                }} className="footer-grid-full">
 
                     {/* Colonne 1 — Identité */}
                     <div>
@@ -201,13 +201,13 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Barre de bas */}
+                {/* Barre de bas — desktop */}
                 <div style={{
                     borderTop: '1px solid rgba(255,255,255,0.07)',
                     paddingTop: '1.25rem',
                     display: 'flex', flexWrap: 'wrap',
                     justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem',
-                }}>
+                }} className="footer-bottom-full">
                     <p style={{ fontSize: '0.8rem', color: '#4b5563', margin: 0 }}>
                         © {year} Portail Numérique des Aguégués — Mairie des Aguégués. Tous droits réservés.
                     </p>
@@ -215,7 +215,46 @@ export default function Footer() {
                         🇧🇯 Bénin · Conforme APDP · Loi n°2009-09
                     </p>
                 </div>
+
+                {/* Barre de bas — mobile uniquement */}
+                <div className="footer-mobile-only" style={{
+                    borderTop: '1px solid rgba(255,255,255,0.07)',
+                    paddingTop: '1.25rem',
+                    textAlign: 'center',
+                }}>
+                    <p style={{ fontSize: '0.8rem', color: '#4b5563', margin: 0 }}>
+                        © {year} Portail des Aguégués · Produit par <span style={{ color: '#6ee7a0', fontWeight: 600 }}>Arnoul &amp; Giorgio</span>
+                    </p>
+                </div>
             </div>
+
+            <style>{`
+                /* Desktop : footer complet visible, mobile-only masqué */
+                .footer-grid-full,
+                .footer-bottom-full {
+                    display: grid;
+                }
+                .footer-bottom-full {
+                    display: flex;
+                }
+                .footer-mobile-only {
+                    display: none;
+                }
+
+                /* Mobile (< 640px) : footer simplifié */
+                @media (max-width: 639px) {
+                    .footer-grid-full,
+                    .footer-bottom-full {
+                        display: none !important;
+                    }
+                    .footer-mobile-only {
+                        display: block !important;
+                    }
+                    footer {
+                        padding-top: 1rem !important;
+                    }
+                }
+            `}</style>
         </footer>
     )
 }
