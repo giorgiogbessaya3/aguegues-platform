@@ -154,231 +154,316 @@ function HeroCanvas() {
 }
 
 
-// Données visuelles du carousel avec placeholders riches
+// Données visuelles du carousel
 const placeholderData = [
-    { emoji: '🌊', title: 'Lac Nokoué', desc: 'Eaux calmes et reflets dorés', bg: 'linear-gradient(160deg,#0a3d62,#1a6b3c,#0e5640)' },
-    { emoji: '🏘️', title: 'Village sur Pilotis', desc: 'Architecture lacustre unique en Afrique', bg: 'linear-gradient(160deg,#1a5c2a,#2d6a4f,#40916c)' },
-    { emoji: '🛒', title: 'Marché Local', desc: 'Commerce et vie quotidienne', bg: 'linear-gradient(160deg,#7f4f24,#b5651d,#8b4513)' },
-    { emoji: '🥁', title: 'Fête Culturelle', desc: 'Traditions et patrimoine vivant', bg: 'linear-gradient(160deg,#501f6c,#7b2d8b,#9b2c9b)' },
-    { emoji: '🚣', title: 'Bord du Fleuve', desc: 'Pêche traditionnelle au crépuscule', bg: 'linear-gradient(160deg,#1e3a5f,#1a5c2a,#0a3d62)' },
-    { emoji: '🏫', title: 'École Primaire', desc: 'Avenir et jeunesse des Aguégués', bg: 'linear-gradient(160deg,#004d40,#00695c,#00897b)' },
-    { emoji: '🏘️', title: 'Village sur Pilotis', desc: 'Architecture lacustre unique en Afrique', bg: 'linear-gradient(160deg,#1a5c2a,#2d6a4f,#40916c)' },
-    { emoji: '🛒', title: 'Marché Local', desc: 'Commerce et vie quotidienne', bg: 'linear-gradient(160deg,#7f4f24,#b5651d,#8b4513)' },
-    { emoji: '🥁', title: 'Fête Culturelle', desc: 'Traditions et patrimoine vivant', bg: 'linear-gradient(160deg,#501f6c,#7b2d8b,#9b2c9b)' },
-    { emoji: '🚣', title: 'Bord du Fleuve', desc: 'Pêche traditionnelle au crépuscule', bg: 'linear-gradient(160deg,#1e3a5f,#1a5c2a,#0a3d62)' },
-    { emoji: '🏫', title: 'École Primaire', desc: 'Avenir et jeunesse des Aguégués', bg: 'linear-gradient(160deg,#004d40,#00695c,#00897b)' },
+    { emoji: '🌊', title: 'Lac Nokoué', desc: 'Eaux calmes et reflets dorés', bg: 'linear-gradient(160deg,#0a3d62,#1a6b3c,#0e5640)', accent: '#34d399' },
+    { emoji: '🏘️', title: 'Village sur Pilotis', desc: 'Architecture lacustre unique en Afrique', bg: 'linear-gradient(160deg,#1a5c2a,#2d6a4f,#40916c)', accent: '#6ee7a0' },
+    { emoji: '🛒', title: 'Marché Local', desc: 'Commerce et vie quotidienne', bg: 'linear-gradient(160deg,#7f4f24,#b5651d,#8b4513)', accent: '#fbbf24' },
+    { emoji: '🥁', title: 'Fête Culturelle', desc: 'Traditions et patrimoine vivant', bg: 'linear-gradient(160deg,#501f6c,#7b2d8b,#9b2c9b)', accent: '#c084fc' },
+    { emoji: '🚣', title: 'Bord du Fleuve', desc: 'Pêche traditionnelle au crépuscule', bg: 'linear-gradient(160deg,#1e3a5f,#1a5c2a,#0a3d62)', accent: '#60a5fa' },
+    { emoji: '🏫', title: 'École Primaire', desc: 'Avenir et jeunesse des Aguégués', bg: 'linear-gradient(160deg,#004d40,#00695c,#00897b)', accent: '#2dd4bf' },
+    { emoji: '🏘️', title: 'Village sur Pilotis', desc: 'Architecture lacustre unique en Afrique', bg: 'linear-gradient(160deg,#1a5c2a,#2d6a4f,#40916c)', accent: '#6ee7a0' },
+    { emoji: '🛒', title: 'Marché Local', desc: 'Commerce et vie quotidienne', bg: 'linear-gradient(160deg,#7f4f24,#b5651d,#8b4513)', accent: '#fbbf24' },
+    { emoji: '🥁', title: 'Fête Culturelle', desc: 'Traditions et patrimoine vivant', bg: 'linear-gradient(160deg,#501f6c,#7b2d8b,#9b2c9b)', accent: '#c084fc' },
+    { emoji: '🚣', title: 'Bord du Fleuve', desc: 'Pêche traditionnelle au crépuscule', bg: 'linear-gradient(160deg,#1e3a5f,#1a5c2a,#0a3d62)', accent: '#60a5fa' },
 ]
 
+// ─── Carte unique de carousel (avec Ken Burns + reveal caption) ────────────────
+function CarouselCard({
+    img, ph, imgIdx, total, isActive,
+}: {
+    img: { src: string; legende: string }
+    ph: typeof placeholderData[0]
+    imgIdx: number
+    total: number
+    isActive: boolean
+}) {
+    const [imgOk, setImgOk] = useState(false)
+
+    return (
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: ph.bg }}>
+
+            {/* ── Image réelle avec Ken Burns ── */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src={img.src} alt={img.legende}
+                onLoad={() => setImgOk(true)}
+                onError={e => { e.currentTarget.style.display = 'none' }}
+                className={isActive && imgOk ? 'carousel-img-active' : ''}
+                style={{
+                    position: 'absolute', inset: 0,
+                    width: '100%', height: '100%', objectFit: 'cover',
+                    transition: 'opacity 0.6s ease',
+                    opacity: imgOk ? 1 : 0,
+                    zIndex: 2,
+                    transformOrigin: 'center center',
+                }}
+            />
+
+            {/* ── Placeholder richement stylé ── */}
+            <div style={{
+                position: 'absolute', inset: 0, zIndex: 1,
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                opacity: imgOk ? 0 : 1, transition: 'opacity 0.6s',
+                padding: '2rem',
+            }}>
+                {/* Grille de points */}
+                <div style={{
+                    position: 'absolute', inset: 0, opacity: 0.07,
+                    backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)',
+                    backgroundSize: '28px 28px',
+                }} />
+                {/* Halo accent */}
+                <div style={{
+                    position: 'absolute', top: '50%', left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '220px', height: '220px', borderRadius: '50%',
+                    background: `radial-gradient(circle, ${ph.accent}22 0%, transparent 70%)`,
+                    pointerEvents: 'none',
+                }} />
+                {/* Icône */}
+                <div style={{
+                    width: '80px', height: '80px', borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.12)',
+                    border: `2px solid ${ph.accent}55`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '2.2rem', marginBottom: '1.25rem',
+                    boxShadow: `0 0 40px ${ph.accent}33`,
+                    position: 'relative', zIndex: 2,
+                }}>
+                    {ph.emoji}
+                </div>
+                <div style={{
+                    fontSize: '1.125rem', fontWeight: 800, color: 'white',
+                    textAlign: 'center', marginBottom: '0.5rem',
+                    textShadow: '0 2px 12px rgba(0,0,0,0.5)',
+                    position: 'relative', zIndex: 2,
+                }}>{ph.title}</div>
+                <div style={{
+                    fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)',
+                    textAlign: 'center', lineHeight: 1.5,
+                    maxWidth: '180px', position: 'relative', zIndex: 2,
+                }}>{ph.desc}</div>
+                <div style={{
+                    marginTop: '1.25rem', padding: '0.35rem 1rem',
+                    background: `${ph.accent}22`,
+                    border: `1px solid ${ph.accent}44`,
+                    borderRadius: '999px',
+                    fontSize: '0.7rem', color: ph.accent,
+                    fontWeight: 600, position: 'relative', zIndex: 2,
+                }}>📸 Image à venir</div>
+            </div>
+
+            {/* ── Overlay gradient cinématique (sur vraie image) ── */}
+            <div style={{
+                position: 'absolute', inset: 0, zIndex: 3,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+                pointerEvents: 'none',
+            }} />
+
+            {/* ── Caption reveal en bas ── */}
+            <div className={isActive ? 'caption-reveal caption-visible' : 'caption-reveal'} style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                zIndex: 4, padding: '1.5rem 1.25rem 1rem',
+            }}>
+                <div style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                    padding: '0.35rem 0.875rem',
+                    background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
+                    borderRadius: '999px',
+                    border: `1px solid ${ph.accent}44`,
+                }}>
+                    <span style={{ fontSize: '0.875rem', color: ph.accent }}>📍</span>
+                    <span style={{ fontSize: '0.8125rem', color: 'white', fontWeight: 600 }}>{img.legende}</span>
+                </div>
+            </div>
+
+            {/* ── Numéro coin haut droit ── */}
+            <div style={{
+                position: 'absolute', top: '0.75rem', right: '0.875rem',
+                zIndex: 5, display: 'flex', alignItems: 'center', gap: '0.375rem',
+                padding: '0.2rem 0.6rem',
+                background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)',
+                borderRadius: '999px', border: '1px solid rgba(255,255,255,0.1)',
+            }}>
+                <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.6)', fontWeight: 700 }}>
+                    {imgIdx + 1} / {total}
+                </span>
+            </div>
+        </div>
+    )
+}
+
+// ─── Zigzag Carousel principal ─────────────────────────────────────────────────
 function Carousel2() {
     const [images, setImages] = useState(carouselImages)
     const total = images.length
     const [index, setIndex] = useState(0)
-    const [imgOk, setImgOk] = useState<Record<number, boolean>>({})
+    const [prev, setPrev] = useState<number | null>(null)
+    const [direction, setDirection] = useState<'left' | 'right'>('right')
+    const [animating, setAnimating] = useState(false)
     const timer = useRef<ReturnType<typeof setInterval> | null>(null)
-    // Sur mobile: 1 image, sur desktop: 2 images
-    const [isMobile, setIsMobile] = useState(false)
+    const [cols, setCols] = useState(3)
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 640)
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
+        const check = () => {
+            if (window.innerWidth < 640) setCols(1)
+            else if (window.innerWidth < 1024) setCols(2)
+            else setCols(3)
+        }
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
     }, [])
-
-    const groupSize = isMobile ? 1 : 2
-    const maxIndex = Math.ceil(total / groupSize) - 1
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}/api/carousel`)
             .then(res => res.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    setImages(data)
-                }
-            })
-            .catch(err => console.error("Erreur chargement carousel", err))
+            .then(data => { if (data?.length > 0) setImages(data) })
+            .catch(() => {})
     }, [])
 
-    const next = () => setIndex(i => (i >= maxIndex ? 0 : i + 1))
-    const prev = () => setIndex(i => (i <= 0 ? maxIndex : i - 1))
+    const maxIndex = Math.ceil(total / cols) - 1
 
-    const reset = () => {
+    const goTo = (next: number, dir: 'left' | 'right') => {
+        if (animating) return
+        setPrev(index)
+        setDirection(dir)
+        setAnimating(true)
+        setIndex(next)
+        setTimeout(() => { setPrev(null); setAnimating(false) }, 700)
+    }
+
+    const handleNext = () => { goTo(index >= maxIndex ? 0 : index + 1, 'right'); resetTimer() }
+    const handlePrev = () => { goTo(index <= 0 ? maxIndex : index - 1, 'left'); resetTimer() }
+
+    const resetTimer = () => {
         if (timer.current) clearInterval(timer.current)
-        timer.current = setInterval(next, 4000)
+        timer.current = setInterval(handleNext, 5000)
     }
 
     useEffect(() => {
-        timer.current = setInterval(next, 4000)
+        timer.current = setInterval(handleNext, 5000)
         return () => { if (timer.current) clearInterval(timer.current) }
-    }, [maxIndex])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [maxIndex, index])
 
-    // Reset index quand groupSize change
-    useEffect(() => { setIndex(0) }, [groupSize])
+    useEffect(() => { setIndex(0) }, [cols])
 
-    const handlePrev = () => { prev(); reset() }
-    const handleNext = () => { next(); reset() }
+    // Calculer les images du slide courant
+    const getSlideImages = (slideIdx: number) => {
+        return Array.from({ length: cols }, (_, offset) => {
+            const imgIdx = slideIdx * cols + offset
+            return imgIdx < total ? { imgIdx, img: images[imgIdx], ph: placeholderData[imgIdx % placeholderData.length] } : null
+        }).filter(Boolean) as { imgIdx: number; img: typeof images[0]; ph: typeof placeholderData[0] }[]
+    }
+
+    const currentItems = getSlideImages(index)
+    const prevItems = prev !== null ? getSlideImages(prev) : []
+
+    // Zigzag offsets par colonne : alternance haut/bas
+    const zigzagOffsets = ['0px', '-32px', '0px'] // col 0 normal, col 1 décalée vers le haut, col 2 normal
+    const zigzagHeights = ['100%', 'calc(100% + 32px)', '100%']
 
     return (
-        <div style={{ position: 'relative', overflow: 'hidden', background: '#0a1a0f', height: '100%' }}>
-            {/* Slides */}
-            <div style={{
-                display: 'flex',
-                transform: `translateX(-${index * 100}%)`,
-                transition: 'transform 0.7s cubic-bezier(0.4,0,0.2,1)',
-                height: '100%',
-            }}>
-                {Array.from({ length: Math.ceil(total / groupSize) }, (_, gi) => (
-                    <div key={gi} style={{ display: 'flex', minWidth: '100%', height: '100%', gap: '2px' }}>
-                        {Array.from({ length: groupSize }, (_, offset) => {
-                            const imgIdx = gi * groupSize + offset
-                            const img = images[imgIdx]
-                            const ph = placeholderData[imgIdx] || placeholderData[0]
-                            const hasRealImg = imgOk[imgIdx]
+        <div style={{
+            position: 'relative', overflow: 'hidden',
+            background: '#050e07', height: '100%',
+        }}>
+            {/* ── Slide précédent (en sortie) ── */}
+            {prev !== null && (
+                <div
+                    className={direction === 'right' ? 'slide-exit-left' : 'slide-exit-right'}
+                    style={{
+                        position: 'absolute', inset: 0, zIndex: 1,
+                        display: 'flex', gap: '3px',
+                        alignItems: 'flex-start',
+                    }}
+                >
+                    {prevItems.map(({ imgIdx, img, ph }, offset) => (
+                        <div key={imgIdx} style={{
+                            flex: 1, position: 'relative',
+                            marginTop: zigzagOffsets[offset],
+                            height: zigzagHeights[offset],
+                            borderRadius: '4px', overflow: 'hidden',
+                        }}>
+                            <CarouselCard img={img} ph={ph} imgIdx={imgIdx} total={total} isActive={false} />
+                        </div>
+                    ))}
+                </div>
+            )}
 
-                            if (!img) return (
-                                <div key={offset} style={{ flex: 1, background: '#111' }} />
-                            )
-                            return (
-                                <div key={offset} style={{
-                                    flex: 1, position: 'relative', overflow: 'hidden',
-                                    background: ph.bg,
-                                }}>
-                                    {/* Image réelle (si fournie) */}
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={img.src} alt={img.legende}
-                                        onLoad={() => setImgOk(s => ({ ...s, [imgIdx]: true }))}
-                                        onError={e => { e.currentTarget.style.display = 'none' }}
-                                        style={{
-                                            position: 'absolute', inset: 0,
-                                            width: '100%', height: '100%', objectFit: 'cover',
-                                            display: 'block', transition: 'opacity 0.5s',
-                                            opacity: hasRealImg ? 1 : 0,
-                                            zIndex: hasRealImg ? 2 : 0,
-                                        }}
-                                    />
-
-                                    {/* Placeholder visuel riche (toujours affiché dessous) */}
-                                    <div style={{
-                                        position: 'absolute', inset: 0, zIndex: 1,
-                                        display: 'flex', flexDirection: 'column',
-                                        alignItems: 'center', justifyContent: 'center',
-                                        opacity: hasRealImg ? 0 : 1, transition: 'opacity 0.5s',
-                                        padding: '1.5rem',
-                                    }}>
-                                        {/* Motif points décoratifs */}
-                                        <div style={{
-                                            position: 'absolute', inset: 0, opacity: 0.08,
-                                            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                                            backgroundSize: '24px 24px',
-                                        }} />
-                                        {/* Cercle icône */}
-                                        <div style={{
-                                            width: '72px', height: '72px', borderRadius: '50%',
-                                            background: 'rgba(255,255,255,0.15)',
-                                            backdropFilter: 'blur(4px)',
-                                            border: '2px solid rgba(255,255,255,0.2)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            fontSize: '2rem', marginBottom: '1rem',
-                                            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-                                        }}>
-                                            {ph.emoji}
-                                        </div>
-                                        <div style={{
-                                            fontSize: '1rem', fontWeight: 700, color: 'white',
-                                            textAlign: 'center', marginBottom: '0.375rem',
-                                            textShadow: '0 2px 8px rgba(0,0,0,0.5)',
-                                        }}>{ph.title}</div>
-                                        <div style={{
-                                            fontSize: '0.75rem', color: 'rgba(255,255,255,0.65)',
-                                            textAlign: 'center', lineHeight: 1.4,
-                                            maxWidth: '160px',
-                                        }}>{ph.desc}</div>
-                                        <div style={{
-                                            marginTop: '1rem', padding: '0.3rem 0.75rem',
-                                            background: 'rgba(255,255,255,0.12)',
-                                            borderRadius: '999px',
-                                            fontSize: '0.6875rem', color: 'rgba(255,255,255,0.7)',
-                                            fontWeight: 500,
-                                            border: '1px solid rgba(255,255,255,0.15)',
-                                        }}>📸 Image à venir</div>
-                                    </div>
-
-                                    {/* Overlay + légende bas (sur vraie image) */}
-                                    {hasRealImg && (
-                                        <>
-                                            <div style={{
-                                                position: 'absolute', inset: 0, zIndex: 3,
-                                                background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)',
-                                            }} />
-                                            <span style={{
-                                                position: 'absolute', bottom: '0.875rem', left: '0.875rem',
-                                                zIndex: 4, display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                                                padding: '0.3rem 0.75rem',
-                                                background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
-                                                borderRadius: '999px',
-                                                fontSize: '0.75rem', color: 'rgba(255,255,255,0.9)',
-                                                fontWeight: 500, border: '1px solid rgba(255,255,255,0.15)',
-                                            }}>📍 {img.legende}</span>
-                                        </>
-                                    )}
-
-                                    {/* Numéro */}
-                                    <span style={{
-                                        position: 'absolute', top: '0.625rem', right: '0.75rem',
-                                        zIndex: 5, fontSize: '0.6875rem',
-                                        color: 'rgba(255,255,255,0.45)', fontWeight: 600,
-                                    }}>{imgIdx + 1}/{total}</span>
-                                </div>
-                            )
-                        })}
+            {/* ── Slide actuel (en entrée) ── */}
+            <div
+                className={animating
+                    ? (direction === 'right' ? 'slide-enter-right' : 'slide-enter-left')
+                    : 'slide-visible'
+                }
+                style={{
+                    position: 'absolute', inset: 0, zIndex: 2,
+                    display: 'flex', gap: '3px',
+                    alignItems: 'flex-start',
+                }}
+            >
+                {currentItems.map(({ imgIdx, img, ph }, offset) => (
+                    <div key={imgIdx} style={{
+                        flex: 1, position: 'relative',
+                        marginTop: zigzagOffsets[offset],
+                        height: zigzagHeights[offset],
+                        borderRadius: '4px', overflow: 'hidden',
+                        transition: 'box-shadow 0.3s',
+                        boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                    }}>
+                        <CarouselCard img={img} ph={ph} imgIdx={imgIdx} total={total} isActive={!animating} />
                     </div>
                 ))}
             </div>
 
-            {/* Bouton Précédent */}
+            {/* ── Bouton Précédent ── */}
             <button onClick={handlePrev} style={{
-                position: 'absolute', top: '50%', left: '0.875rem',
-                transform: 'translateY(-50%)',
-                width: '40px', height: '40px', borderRadius: '50%',
-                background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white', fontSize: '1.25rem', fontWeight: 300,
+                position: 'absolute', top: '50%', left: '1rem',
+                transform: 'translateY(-50%)', zIndex: 10,
+                width: '44px', height: '44px', borderRadius: '50%',
+                background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'white', fontSize: '1.5rem',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                zIndex: 5, transition: 'all 0.2s', lineHeight: 1,
+                transition: 'all 0.2s', lineHeight: 1,
             }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(26,92,42,0.7)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.45)'}
+                onMouseEnter={e => { e.currentTarget.style.background = '#1a5c2a'; e.currentTarget.style.borderColor = '#6ee7a0' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
             >‹</button>
 
-            {/* Bouton Suivant */}
+            {/* ── Bouton Suivant ── */}
             <button onClick={handleNext} style={{
-                position: 'absolute', top: '50%', right: '0.875rem',
-                transform: 'translateY(-50%)',
-                width: '40px', height: '40px', borderRadius: '50%',
-                background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white', fontSize: '1.25rem', fontWeight: 300,
+                position: 'absolute', top: '50%', right: '1rem',
+                transform: 'translateY(-50%)', zIndex: 10,
+                width: '44px', height: '44px', borderRadius: '50%',
+                background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'white', fontSize: '1.5rem',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                zIndex: 5, transition: 'all 0.2s', lineHeight: 1,
+                transition: 'all 0.2s', lineHeight: 1,
             }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(26,92,42,0.7)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.45)'}
+                onMouseEnter={e => { e.currentTarget.style.background = '#1a5c2a'; e.currentTarget.style.borderColor = '#6ee7a0' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
             >›</button>
 
-            {/* Points */}
+            {/* ── Indicateurs ── */}
             <div style={{
-                position: 'absolute', bottom: '0.75rem', left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex', gap: '6px', zIndex: 5,
+                position: 'absolute', bottom: '1rem', left: '50%',
+                transform: 'translateX(-50%)', zIndex: 10,
+                display: 'flex', gap: '6px', alignItems: 'center',
             }}>
                 {Array.from({ length: maxIndex + 1 }, (_, i) => (
-                    <button key={i} onClick={() => { setIndex(i); reset() }} style={{
-                        width: i === index ? '22px' : '7px',
-                        height: '7px', borderRadius: '3.5px',
-                        background: i === index ? '#6ee7a0' : 'rgba(255,255,255,0.4)',
+                    <button key={i} onClick={() => goTo(i, i > index ? 'right' : 'left')} style={{
+                        width: i === index ? '28px' : '8px',
+                        height: '8px', borderRadius: '4px',
+                        background: i === index ? '#6ee7a0' : 'rgba(255,255,255,0.35)',
                         border: 'none', cursor: 'pointer', padding: 0,
-                        transition: 'all 0.35s ease',
+                        transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+                        boxShadow: i === index ? '0 0 10px #6ee7a066' : 'none',
                     }} />
                 ))}
             </div>
@@ -446,48 +531,96 @@ export default function HomePage() {
 
 
                 {/* ── CAROUSEL ──────────────────────────────── */}
-                <section style={{ display: 'flex', flexDirection: 'column', background: '#0a1a0f', flex: 1, minHeight: '300px' }}>
+                <section style={{ display: 'flex', flexDirection: 'column', background: '#050e07', flex: 1, minHeight: '300px' }}>
                     {/* En-tête carousel */}
                     <div style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        padding: '0.5rem 1.25rem 0.5rem',
-                        background: 'rgba(255,255,255,0.04)',
-                        borderBottom: '1px solid rgba(255,255,255,0.08)',
+                        padding: '0.625rem 1.25rem',
+                        background: 'rgba(255,255,255,0.03)',
+                        borderBottom: '1px solid rgba(255,255,255,0.06)',
                         flexShrink: 0,
                     }}>
                         <span style={{
                             fontSize: '0.8125rem', fontWeight: 700,
-                            color: '#6ee7a0', display: 'flex', alignItems: 'center', gap: '0.375rem',
+                            color: '#6ee7a0', display: 'flex', alignItems: 'center', gap: '0.5rem',
                         }}>
-                            📸 La Commune en Images
+                            <span style={{
+                                display: 'inline-block', width: '8px', height: '8px',
+                                borderRadius: '50%', background: '#6ee7a0',
+                                boxShadow: '0 0 8px #6ee7a0',
+                                animation: 'pulse-dot 2s ease-in-out infinite',
+                            }} />
+                            La Commune en Images
+                        </span>
+                        <span style={{ fontSize: '0.7rem', color: '#4b5563', fontStyle: 'italic' }}>
+                            Aguégués · Bénin
                         </span>
                     </div>
                     {/* Carousel */}
-                    <div style={{ flex: 1, overflow: 'hidden', minHeight: '250px' }}>
+                    <div style={{ flex: 1, overflow: 'hidden', minHeight: '250px', padding: '8px 6px 6px' }}>
                         <Carousel2 />
                     </div>
                 </section>
 
             <style>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-        /* Desktop : layout plein écran fixe */
+        /* ── Layout ── */
         @media (min-width: 640px) {
-          .home-main {
-            height: 100dvh;
-            flex-direction: column;
-            overflow: hidden;
-          }
+          .home-main { height: 100dvh; flex-direction: column; overflow: hidden; }
         }
-        /* Mobile : scrollable naturellement */
         @media (max-width: 639px) {
-          .home-main {
-            height: auto;
-            min-height: 100dvh;
-            overflow: auto;
-          }
+          .home-main { height: auto; min-height: 100dvh; overflow: auto; }
+        }
+
+        /* ── Slide transitions ── */
+        @keyframes slideInFromRight {
+          from { transform: translateX(100%) skewX(-3deg); opacity: 0; }
+          to   { transform: translateX(0)    skewX(0deg);  opacity: 1; }
+        }
+        @keyframes slideInFromLeft {
+          from { transform: translateX(-100%) skewX(3deg); opacity: 0; }
+          to   { transform: translateX(0)     skewX(0deg); opacity: 1; }
+        }
+        @keyframes slideOutToLeft {
+          from { transform: translateX(0)     skewX(0deg);  opacity: 1; }
+          to   { transform: translateX(-100%) skewX(-3deg); opacity: 0; }
+        }
+        @keyframes slideOutToRight {
+          from { transform: translateX(0)    skewX(0deg); opacity: 1; }
+          to   { transform: translateX(100%) skewX(3deg); opacity: 0; }
+        }
+
+        .slide-enter-right  { animation: slideInFromRight  0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .slide-enter-left   { animation: slideInFromLeft   0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .slide-exit-left    { animation: slideOutToLeft    0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .slide-exit-right   { animation: slideOutToRight   0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .slide-visible      { transform: translateX(0); opacity: 1; }
+
+        /* ── Ken Burns sur l'image active ── */
+        @keyframes kenBurns {
+          0%   { transform: scale(1)    translate(0, 0); }
+          50%  { transform: scale(1.06) translate(-1%, 0.5%); }
+          100% { transform: scale(1)    translate(0, 0); }
+        }
+        .carousel-img-active {
+          animation: kenBurns 8s ease-in-out infinite;
+        }
+
+        /* ── Caption reveal ── */
+        .caption-reveal {
+          transform: translateY(16px);
+          opacity: 0;
+          transition: transform 0.55s cubic-bezier(0.22,1,0.36,1) 0.25s,
+                      opacity   0.55s ease 0.25s;
+        }
+        .caption-reveal.caption-visible {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        /* ── Dot pulsant ── */
+        @keyframes pulse-dot {
+          0%, 100% { box-shadow: 0 0 6px #6ee7a0; opacity: 1; }
+          50%       { box-shadow: 0 0 14px #6ee7a0; opacity: 0.6; }
         }
       `}</style>
         </main>
