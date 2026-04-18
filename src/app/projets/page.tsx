@@ -154,19 +154,10 @@ function AnimatedCounter({ end, prefix = '', suffix = '' }: { end: number; prefi
 
 export default function ProjetsPage() {
     const [projets, setProjets] = useState<Projet[]>(PROJETS_DEMO)
-    const [loading, setLoading] = useState(false)
     const [filtre, setFiltre] = useState('tous')
 
-    useEffect(() => {
-        setLoading(true)
-        fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}/api/projets`)
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) setProjets(data)
-                setLoading(false)
-            })
-            .catch(() => setLoading(false))
-    }, [])
+
+    // Données chargées localement depuis PROJETS_DEMO — pas d'API externe
 
     const projetsFiltres = filtre === 'tous'
         ? projets
@@ -192,49 +183,50 @@ export default function ProjetsPage() {
             <div style={{ position: 'relative', zIndex: 1 }}>
             {/* Hero */}
             <div
-                className="text-white relative overflow-hidden"
                 style={{
                     backgroundImage: 'url(/commune/arrpresentation.jpeg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     padding: 'clamp(2rem, 5vw, 3rem) 0 clamp(1.5rem, 3vw, 2.25rem)',
+                    position: 'relative',
+                    overflow: 'hidden',
                 }}
             >
-                {/* Overlay sombre pour lisibilité */}
+                {/* Overlay */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0a1620 0%, rgba(10,22,32,0.75) 60%, rgba(10,22,32,0.5) 100%)' }} />
-                <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-                <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+                <div style={{ position: 'absolute', inset: 0, opacity: 0.05, backgroundImage: 'radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '16rem', height: '16rem', background: 'rgba(250,204,21,0.1)', borderRadius: '50%', transform: 'translate(50%,-50%)', filter: 'blur(48px)' }} />
 
-                <div className="container mx-auto px-4 lg:px-8 relative z-10 max-w-5xl">
-                    <div className="inline-flex items-center gap-2 bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4 border border-yellow-400/30">
-                        <Heart size={11} className="animate-pulse" /> Solidarité communautaire
+                <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1rem', position: 'relative', zIndex: 10 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(250,204,21,0.2)', color: '#fde68a', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0.375rem 0.75rem', borderRadius: '999px', marginBottom: '1rem', border: '1px solid rgba(250,204,21,0.3)' }}>
+                        <Heart size={11} style={{ animation: 'pulseDot 1.5s ease-in-out infinite' }} /> Solidarité communautaire
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-black mb-3 tracking-tight leading-tight">
-                        Projets à <span className="text-yellow-400">Soutenir</span>
+                    <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 900, color: 'white', margin: '0 0 0.75rem', lineHeight: 1.2, letterSpacing: '-0.025em' }}>
+                        Projets à <span style={{ color: '#facc15' }}>Soutenir</span>
                     </h1>
-                    <p className="text-base text-green-100 max-w-xl font-light mb-6">
+                    <p style={{ fontSize: '0.9375rem', color: 'rgba(220,252,231,0.9)', maxWidth: '32rem', fontWeight: 300, marginBottom: '1.5rem' }}>
                         Devenez acteur du développement des Aguégués. Chaque contribution bâtit l&apos;avenir de notre commune.
                     </p>
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-3 gap-3 max-w-lg">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
-                            <div className="text-xl md:text-2xl font-black text-yellow-400 mb-0.5">
+                    {/* Stats - responsive grid */}
+                    <div className="projets-hero-stats">
+                        <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: '0.75rem', padding: '0.75rem', border: '1px solid rgba(255,255,255,0.2)', textAlign: 'center' }}>
+                            <div style={{ fontSize: 'clamp(1.125rem, 3vw, 1.5rem)', fontWeight: 900, color: '#facc15', marginBottom: '0.125rem' }}>
                                 <AnimatedCounter end={projets.length} />
                             </div>
-                            <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Projets actifs</div>
+                            <div style={{ color: '#bbf7d0', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Projets actifs</div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
-                            <div className="text-lg md:text-xl font-black text-yellow-400 mb-0.5">
+                        <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: '0.75rem', padding: '0.75rem', border: '1px solid rgba(255,255,255,0.2)', textAlign: 'center' }}>
+                            <div style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)', fontWeight: 900, color: '#facc15', marginBottom: '0.125rem' }}>
                                 <AnimatedCounter end={Math.round(totalCollecte / 1000000)} suffix="M FCFA" />
                             </div>
-                            <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Collectés</div>
+                            <div style={{ color: '#bbf7d0', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Collectés</div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 text-center">
-                            <div className="text-xl md:text-2xl font-black text-yellow-400 mb-0.5">
+                        <div style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: '0.75rem', padding: '0.75rem', border: '1px solid rgba(255,255,255,0.2)', textAlign: 'center' }}>
+                            <div style={{ fontSize: 'clamp(1.125rem, 3vw, 1.5rem)', fontWeight: 900, color: '#facc15', marginBottom: '0.125rem' }}>
                                 <AnimatedCounter end={totalDonateurs} suffix="+" />
                             </div>
-                            <div className="text-green-200 text-xs font-semibold uppercase tracking-wide">Donateurs</div>
+                            <div style={{ color: '#bbf7d0', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Donateurs</div>
                         </div>
                     </div>
                 </div>
@@ -279,11 +271,7 @@ export default function ProjetsPage() {
 
             {/* Liste */}
             <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem)' }}>
-                {loading ? (
-                    <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem 0' }}>
-                        <div style={{ width: '48px', height: '48px', border: '3px solid rgba(52,211,153,0.2)', borderTopColor: '#34d399', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                    </div>
-                ) : projetsFiltres.length === 0 ? (
+                {projetsFiltres.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '5rem 1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)' }}>
                         <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌱</div>
                         <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'white', marginBottom: '0.5rem' }}>Aucun projet dans cette catégorie</h3>
@@ -394,16 +382,16 @@ export default function ProjetsPage() {
                 )}
 
                 {/* CTA Proposer un projet */}
-                <div className="mt-10 bg-gradient-to-r from-[#1a5c2a] to-green-700 rounded-2xl p-5 md:p-7 text-white relative overflow-hidden flex flex-col md:flex-row items-center gap-4 md:gap-6">
-                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-                    <TrendingUp size={36} className="text-yellow-400 relative z-10 shrink-0" />
-                    <div className="flex-1 text-center md:text-left relative z-10">
-                        <h2 className="text-lg md:text-xl font-black mb-1">Vous avez un projet pour les Aguégués ?</h2>
-                        <p className="text-green-100 text-sm max-w-lg">
-                            Soumettez votre initiative à la mairie. Les meilleures propositions seront publées et financées par la diaspora.
+                <div className="projets-cta-block">
+                    <div style={{ position: 'absolute', inset: 0, opacity: 0.1, backgroundImage: 'radial-gradient(circle at 70% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+                    <TrendingUp size={36} style={{ color: '#facc15', position: 'relative', zIndex: 1, flexShrink: 0 }} />
+                    <div style={{ flex: 1, textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                        <h2 style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)', fontWeight: 900, color: 'white', marginBottom: '0.25rem' }}>Vous avez un projet pour les Aguégués ?</h2>
+                        <p style={{ color: 'rgba(220,252,231,0.85)', fontSize: '0.875rem', maxWidth: '32rem' }}>
+                            Soumettez votre initiative à la mairie. Les meilleures propositions seront publiées et financées par la diaspora.
                         </p>
                     </div>
-                    <Link href="/contact" className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 font-black px-6 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg relative z-10 shrink-0 text-sm whitespace-nowrap">
+                    <Link href="/contact" className="projets-cta-btn">
                         Proposer un projet <ArrowRight size={16} />
                     </Link>
                 </div>
@@ -431,7 +419,57 @@ export default function ProjetsPage() {
                 border-color: rgba(126,200,200,0.22) !important;
                 box-shadow: 0 16px 48px rgba(0,0,0,0.4) !important;
             }
-        `}</style>
+            /* Stats hero */
+            .projets-hero-stats {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                max-width: 32rem;
+            }
+            @media (min-width: 480px) {
+                .projets-hero-stats { grid-template-columns: repeat(3, 1fr); }
+            }
+            /* CTA bloc */
+            .projets-cta-block {
+                margin-top: 2.5rem;
+                background: linear-gradient(135deg, #1a5c2a, #15803d);
+                border-radius: 1rem;
+                padding: 1.25rem;
+                color: white;
+                position: relative;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                text-align: center;
+            }
+            @media (min-width: 640px) {
+                .projets-cta-block {
+                    flex-direction: row;
+                    padding: 1.75rem;
+                    text-align: left;
+                }
+            }
+            .projets-cta-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: #facc15;
+                color: #713f12;
+                font-weight: 900;
+                padding: 0.625rem 1.5rem;
+                border-radius: 0.75rem;
+                text-decoration: none;
+                font-size: 0.875rem;
+                white-space: nowrap;
+                position: relative;
+                z-index: 1;
+                flex-shrink: 0;
+                transition: background 0.2s, transform 0.2s;
+            }
+            .projets-cta-btn:hover { background: #fde047; transform: translateY(-2px); }
+`}</style>
         <Footer />
         </>
     )

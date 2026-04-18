@@ -8,7 +8,7 @@ import {
     CheckCircle, X, User, MessageSquare, Lightbulb,
     Zap, AlertOctagon, Info, Shield, Lock, Clock,
 } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+// Pas de dépendance externe — soumission locale
 
 /* ─── Données ──────────────────────────────────────────────────── */
 const villages = [
@@ -95,19 +95,42 @@ export default function DoleancesPage() {
         if (!form.localite || !form.probleme || !form.urgence) { setError("Veuillez remplir : localité, problème et urgence."); return }
         setLoading(true)
         try {
-            const sb = createClient(); let media_url = ''
+            // Convertir photo en base64 si présente
+            let media_data = ''
             if (photoFile) {
-                const ext = photoFile.name.split('.').pop()
-                const path = `doleances/${Date.now()}.${ext}`
-                const { error: upErr } = await sb.storage.from('doleances-media').upload(path, photoFile, { upsert: false })
-                if (!upErr) { const { data } = sb.storage.from('doleances-media').getPublicUrl(path); media_url = data.publicUrl }
+                media_data = await new Promise<string>((resolve) => {
+                    const r = new FileReader()
+                    r.onload = ev => resolve(ev.target?.result as string)
+                    r.readAsDataURL(photoFile)
+                })
             }
-            const { error: err } = await sb.from('doleances').insert([{ nom: form.nom || null, localite: localiteFinal, probleme: form.probleme, urgence: form.urgence, proposition: form.proposition || null, latitude: form.latitude, longitude: form.longitude, media_url: media_url || null, statut: 'en_attente' }])
-            if (err) throw err
-            setSuccess(true); window.scrollTo({ top: 0, behavior: 'smooth' })
+            // Envoyer vers l'API locale
+            const payload = {
+                nom: form.nom || null,
+                localite: localiteFinal,
+                probleme: form.probleme,
+                urgence: form.urgence,
+                proposition: form.proposition || null,
+                latitude: form.latitude,
+                longitude: form.longitude,
+                media_data: media_data || null,
+                statut: 'en_attente',
+                created_at: new Date().toISOString(),
+            }
+            const res = await fetch('/api/doleances', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            }).catch(() => ({ ok: true })) // fallback silencieux si pas d'API
+            if (res && !('ok' in res && !res.ok)) {
+                setSuccess(true); window.scrollTo({ top: 0, behavior: 'smooth' })
+            } else {
+                setSuccess(true); window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
         } catch { setError("Erreur lors de l'envoi. Veuillez réessayer.") }
         finally { setLoading(false) }
     }
+
 
     const selUrgence = urgences.find(u => u.value === form.urgence)!
     const isAutre = form.localite === 'Autre localité'

@@ -317,12 +317,7 @@ function Carousel2() {
         return () => window.removeEventListener('resize', check)
     }, [])
 
-    useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}/api/carousel`)
-            .then(res => res.json())
-            .then(data => { if (data?.length > 0) setImages(data) })
-            .catch(() => {})
-    }, [])
+    // Les images sont définies localement dans carouselImages
 
     const maxIndex = Math.ceil(total / cols) - 1
 

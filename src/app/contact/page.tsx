@@ -280,7 +280,7 @@ export default function ContactPage() {
 
                                             <form onSubmit={handleSubmit}>
                                                 {/* Nom + Email */}
-                                                <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.125rem', marginBottom: '1.125rem' }}>
+                                                <div className="form-row-2col" style={{ display: 'grid', gap: '1.125rem', marginBottom: '1.125rem' }}>
                                                     <div>
                                                         <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
                                                             Nom complet *
@@ -314,7 +314,7 @@ export default function ContactPage() {
                                                 </div>
 
                                                 {/* Téléphone + Sujet */}
-                                                <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.125rem', marginBottom: '1.125rem' }}>
+                                                <div className="form-row-2col" style={{ display: 'grid', gap: '1.125rem', marginBottom: '1.125rem' }}>
                                                     <div>
                                                         <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
                                                             Téléphone (optionnel)
@@ -677,6 +677,12 @@ export default function ContactPage() {
         }
 
         /* ══ LAYOUT RESPONSIVE ════════════════════════════════ */
+        .form-row-2col {
+          grid-template-columns: 1fr;
+        }
+        @media (min-width: 520px) {
+          .form-row-2col { grid-template-columns: 1fr 1fr; }
+        }
         @media (min-width: 900px) {
           .contact-grid { grid-template-columns: 1fr 360px !important; }
         }

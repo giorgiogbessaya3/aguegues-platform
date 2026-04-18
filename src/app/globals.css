@@ -685,19 +685,14 @@ h6 {
   }
 }
 
-/* ── Grilles auto-fill — min réduit sur mobile ── */
-@media (max-width: 500px) {
-
-  /* Force les grilles auto-fill avec min 280px à passer en 1 col */
-  [style*="minmax(300px"] {
-    /* Hint uniquement, override dans chaque page */
-  }
+/* ── Global overflow fix ── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* ── Corrections page layout ── */
 @media (max-width: 767px) {
-
-  /* Éviter l'overflow horizontal global */
   body {
     overflow-x: hidden;
   }
@@ -713,24 +708,39 @@ h6 {
     font-size: 16px !important;
   }
 
-  /* Breadcrumb wrap */
-  .breadcrumb-wrap {
-    flex-wrap: wrap;
-  }
-
   /* Hero header — réduire padding */
   .hero-header-section {
     padding: 2rem 0 1.5rem !important;
+  }
+
+  /* Dashboard : forcer 1 colonne */
+  .dashboard-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Inscription : sélection type de profil en colonne */
+  .profil-selector-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Boutons : éviter le débordement */
+  .btn, button {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
 /* ── Tablette : sidebar visible → adapter le contenu ── */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .page-content-wrapper {
-    /* Sidebar de 240px déjà prise en compte */
-  }
-
   .responsive-grid-cards {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
 }
+
+/* ── Très petit mobile (< 380px) ── */
+@media (max-width: 380px) {
+  /* Réduire les paddings clamp min sur très petits écrans */
+  .responsive-grid-cards {
+    grid-template-columns: 1fr !important;
+  }
+}

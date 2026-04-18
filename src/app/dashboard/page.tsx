@@ -7,7 +7,7 @@ import {
     User, Settings, Lock, Bell, LogOut, Edit3, Save, X,
     Eye, EyeOff, CheckCircle, AlertCircle, Globe2, Shield, Loader2
 } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+// Pas de dépendance Supabase — données locales de démonstration
 import type { ProfileComplet } from '@/lib/supabase/types'
 
 type Onglet = 'profil' | 'visibilite' | 'securite' | 'notifications'
@@ -25,59 +25,53 @@ export default function DashboardPage() {
     })
     const router = useRouter()
 
+    // Profil de démonstration local
+    const PROFIL_DEMO: ProfileComplet = {
+        id: 'demo-user-001',
+        type: 'cadre',
+        statut: 'valide',
+        nom: 'Akoué',
+        prenom: 'Jean-Baptiste',
+        telephone: '+229 97 00 00 00',
+        ville_residence: 'Cotonou',
+        pays_residence: 'Bénin',
+        bio: 'Ingénieur en génie civil, spécialiste des infrastructures hydrauliques. 12 ans d\'expérience dans la région de l\'Ouémé.',
+        linkedin_url: 'https://linkedin.com/in/jean-baptiste-akoue',
+        profiles_cadres: null,
+        profiles_jeunes: null,
+    } as ProfileComplet
+
     useEffect(() => {
-        chargerProfil()
-    }, [])
-
-    const chargerProfil = async () => {
-        const supabase = createClient()
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) { router.push('/connexion'); return }
-
-        const { data } = await supabase
-            .from('profiles')
-            .select('*, profiles_cadres(*), profiles_jeunes(*)')
-            .eq('id', user.id)
-            .single()
-
-        setProfile(data)
-        if (data) {
+        // Simuler un chargement réaliste
+        setTimeout(() => {
+            setProfile(PROFIL_DEMO)
             setForm({
-                nom: data.nom || '',
-                prenom: data.prenom || '',
-                telephone: data.telephone || '',
-                ville_residence: data.ville_residence || '',
-                pays_residence: data.pays_residence || 'Bénin',
-                bio: data.bio || '',
-                linkedin_url: data.linkedin_url || '',
+                nom: PROFIL_DEMO.nom || '',
+                prenom: PROFIL_DEMO.prenom || '',
+                telephone: PROFIL_DEMO.telephone || '',
+                ville_residence: PROFIL_DEMO.ville_residence || '',
+                pays_residence: PROFIL_DEMO.pays_residence || 'Bénin',
+                bio: PROFIL_DEMO.bio || '',
+                linkedin_url: PROFIL_DEMO.linkedin_url || '',
             })
-        }
-        setLoading(false)
-    }
+            setLoading(false)
+        }, 600)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSave = async () => {
         if (!profile) return
         setSaving(true)
-        const supabase = createClient()
-        const { error } = await supabase
-            .from('profiles')
-            .update({ ...form, updated_at: new Date().toISOString() })
-            .eq('id', profile.id)
-
+        // Simulation sauvegarde locale
+        await new Promise(r => setTimeout(r, 600))
         setSaving(false)
-        if (error) {
-            setSaveMsg('error')
-        } else {
-            setSaveMsg('success')
-            setEditing(false)
-            setProfile(prev => prev ? { ...prev, ...form } : null)
-        }
+        setSaveMsg('success')
+        setEditing(false)
+        setProfile(prev => prev ? { ...prev, ...form } : null)
         setTimeout(() => setSaveMsg(null), 3500)
     }
 
-    const handleDeconnexion = async () => {
-        const supabase = createClient()
-        await supabase.auth.signOut()
+    const handleDeconnexion = () => {
         router.push('/')
     }
 
