@@ -24,13 +24,14 @@ const C = {
 }
 
 const navLinks: { label: string; href: string; icon: LucideIcon }[] = [
-    { label: 'Mot du Maire',       href: '/mot-du-maire',  icon: Landmark       },
-    { label: 'Présentation',        href: '/a-propos',      icon: BookOpen       },
-    { label: 'Doléances',           href: '/doleances',     icon: ClipboardList  },
-    { label: 'Actualités',          href: '/actualites',    icon: Newspaper      },
-    { label: 'Espace Cadres',       href: '/espace-cadres', icon: GraduationCap  },
-    { label: 'Projets à Soutenir',  href: '/projets',       icon: Lightbulb      },
-    { label: 'Contact',             href: '/contact',       icon: Mail           },
+
+    { label: 'Présentation', href: '/a-propos', icon: BookOpen },
+    { label: 'Mot du Maire', href: '/mot-du-maire', icon: Landmark },
+    { label: 'Actualités', href: '/actualites', icon: Newspaper },
+    { label: 'Doléances', href: '/doleances', icon: ClipboardList },
+    { label: 'Projets à Soutenir', href: '/projets', icon: Lightbulb },
+    { label: 'Espace Cadres', href: '/espace-cadres', icon: GraduationCap },
+    { label: 'Contact', href: '/contact', icon: Mail },
 ]
 
 export default function Header() {
@@ -110,33 +111,6 @@ export default function Header() {
                     flexShrink: 0,
                     background: C.bgDark,
                 }}>
-                    <Link href="/connexion" style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                        padding: '0.6rem 1rem', borderRadius: '10px',
-                        border: `1.5px solid ${C.accent}`,
-                        color: C.accent,
-                        fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none',
-                        transition: 'all 0.15s',
-                    }}
-                        onMouseEnter={e => { e.currentTarget.style.background = C.accentGlow }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
-                    >
-                        <LogIn size={16} /> Connexion
-                    </Link>
-                    <Link href="/inscription" style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                        padding: '0.6rem 1rem', borderRadius: '10px',
-                        background: C.accent,
-                        color: '#1a3038',
-                        fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
-                        boxShadow: `0 3px 12px rgba(126,200,200,0.3)`,
-                        transition: 'all 0.15s',
-                    }}
-                        onMouseEnter={e => { e.currentTarget.style.background = '#9dd8d8' }}
-                        onMouseLeave={e => { e.currentTarget.style.background = C.accent }}
-                    >
-                        <UserPlus size={16} /> S&apos;inscrire
-                    </Link>
 
                     {/* Watermark bas */}
                     <p style={{ margin: '0.5rem 0 0', fontSize: '0.6875rem', color: C.textMuted, textAlign: 'center' }}>

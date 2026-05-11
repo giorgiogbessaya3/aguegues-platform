@@ -14,15 +14,8 @@ import {
 const villages = [
     { name: 'Aguégués Centre', desc: 'Chef-lieu' },
     { name: 'Avagbodji',       desc: 'Village lacustre' },
-    { name: 'Tohouè',          desc: 'Zone rurale' },
-    { name: 'Dégon',           desc: 'Bord du lac' },
-    { name: 'Hêtin-Sota',      desc: 'Zone lacustre' },
-    { name: 'Zoungamè',        desc: 'Village' },
-    { name: 'Kpinnou',         desc: 'Zone agricole' },
-    { name: 'Akodéha',         desc: 'Village' },
-    { name: 'Gankpétin',       desc: 'Zone naturelle' },
-    { name: 'Vêki',            desc: 'Village' },
-    { name: 'Adjohoun',        desc: 'Proximité' },
+    { name: 'Zoungamè',        desc: 'Village historique' },
+    { name: 'Houédomè',        desc: 'Village' },
     { name: 'Autre localité',  desc: 'Précisez ci-dessous' },
 ]
 
