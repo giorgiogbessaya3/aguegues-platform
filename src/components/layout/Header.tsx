@@ -208,19 +208,6 @@ export default function Header() {
                             display: 'flex', flexDirection: 'column', gap: '0.75rem',
                             background: C.bgDark,
                         }}>
-                            <Link href="/connexion" onClick={() => setMobileOpen(false)} style={{
-                                display: 'block', textAlign: 'center',
-                                padding: '0.75rem', borderRadius: '10px',
-                                border: `1.5px solid ${C.accent}`, color: C.accent,
-                                fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem',
-                            }}>Connexion</Link>
-                            <Link href="/inscription" onClick={() => setMobileOpen(false)} style={{
-                                display: 'block', textAlign: 'center',
-                                padding: '0.75rem', borderRadius: '10px',
-                                background: C.accent, color: '#1a3038',
-                                fontWeight: 700, textDecoration: 'none', fontSize: '0.9rem',
-                                boxShadow: '0 3px 12px rgba(126,200,200,0.3)',
-                            }}>S&apos;inscrire</Link>
                         </div>
                     </div>
                 </div>
